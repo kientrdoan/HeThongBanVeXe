@@ -39,7 +39,7 @@ export default function Header() {
 
                 <div className="mt-4 flex flex-1 justify-end">
                     <div className="flex items-start gap-4 text-center text-sm font-medium">
-                        <NavLink to="/login"  className="flex h-8 w-44 text-[13px] cursor-pointer items-center gap-3 rounded-2xl bg-white p-2 text-black">
+                        <NavLink to="/login"  className="flex h-8 w-44 justify-center text-[12px] cursor-pointer items-center gap-2 rounded-2xl bg-white p-2 text-black">
                             <img src={person} style={{width: "20px", height: "20px"}} alt=""/>
                             Đăng nhập/Đăng ký
                         </NavLink>
@@ -49,13 +49,13 @@ export default function Header() {
             </div>
 
             <div className={`${styles["nav-link-group"]} content`}>
-                <NavLink className={linkClass} to="/">Trang chủ</NavLink>
-                <NavLink className={linkClass} to="/lich-trinh">Lịch trình</NavLink>
-                <NavLink className={linkClass} to="/tra-cuu-ve">Tra cứu vé</NavLink>
-                <NavLink className={linkClass} to="/tin-tuc">Tin tức</NavLink>
-                <NavLink className={linkClass} to="/hoa-don">Hóa đơn</NavLink>
-                <NavLink className={linkClass} to="/lien-he">Liên hệ</NavLink>
-                <NavLink className={linkClass} to="/ve-chung-toi">Về chúng tôi</NavLink>
+                <NavLink className={linkClass} to="/">TRANG CHỦ</NavLink>
+                <NavLink className={linkClass} to="/lich-trinh">LỊCH TRÌNH</NavLink>
+                <NavLink className={linkClass} to="/tra-cuu-ve">TRA CỨU VÉ</NavLink>
+                {/* <NavLink className={linkClass} to="/tin-tuc">TIN TỨC</NavLink> */}
+                <NavLink className={linkClass} to="/hoa-don">HOÁ ĐƠN</NavLink>
+                <NavLink className={linkClass} to="/lien-he">LIÊN HỆ</NavLink>
+                <NavLink className={linkClass} to="/ve-chung-toi">VỀ CHÚNG TÔI</NavLink>
             </div>
         </div>
 

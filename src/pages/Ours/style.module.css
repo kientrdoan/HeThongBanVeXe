@@ -1,0 +1,43 @@
+.parent {
+	width: 70%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+	margin-top: 25px;
+}
+
+.author {
+	display: flex;
+	gap: 50px;
+	justify-content: space-between;
+}
+
+.author img {
+	width: 256px;
+	height: 256px;
+	border-radius: 50%;
+	background-color: royalblue;
+}
+
+.author div {
+	width: 65%;
+}
+
+.information {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.information h2 {
+	color: #ef5222;
+    font-weight: bold;
+    font-size: large;
+}
+
+.information li {
+	margin-left: 25px;
+	padding: 5px;
+    list-style: circle;
+}

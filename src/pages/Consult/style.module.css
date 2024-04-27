@@ -1,0 +1,52 @@
+.parent {
+	width: 70%;
+	margin: auto;
+}
+
+.parent form {
+	margin: auto;
+	width: 60%;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.parent form h2 {
+	align-self: center;
+	margin-top: 25px;
+	color: #00613d;
+    font-size: large;
+    font-weight: bold;
+}
+
+.parent form input {
+	padding: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	outline: none;
+	border-radius: 10px;
+}
+
+.parent form input::placeholder {
+	font-style: italic;
+}
+
+.parent form input:focus {
+	outline: 3px solid rgba(239, 82, 34, 0.2);
+}
+
+.parent form button {
+	width: 25%;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 20px;
+	background-color: rgba(239, 82, 34, 0.15);
+	color: #ef5222;
+	font-weight: bold;
+	align-self: center;
+	cursor: pointer;
+}
+
+.parent form button:hover {
+	background-color: #ffc53d;
+}

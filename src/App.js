@@ -4,15 +4,29 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import AuthPage from './pages/Auth/AuthPage';
 import Header from './components/header/Header';
 import Home from './pages/Home/Home';
+import ContactPage from './pages/Contact/Contact';
+import OursPage from './pages/Ours/Ours';
+import ConsultPage from './pages/Consult/Consult';
+import Modal from './modal/Modal';
+import Bill from './pages/Bill/Bill';
+import Footer from './components/footer/Footer';
+import BookTicket from './pages/BookTicket/BookTicket';
 
 function App() {
   return (
     <BrowserRouter>
       <Header></Header>
+      <Modal></Modal>
       <Routes>
         <Route path="/" Component={Home}></Route>
         <Route path="/login" Component={AuthPage}></Route>
+        <Route path="/lien-he" Component={ContactPage}></Route>
+        <Route path="/ve-chung-toi" Component={OursPage}></Route>
+        <Route path="/tra-cuu-ve" Component={ConsultPage}></Route>
+        <Route path="/hoa-don" Component={Bill}></Route>
+        <Route path="/chon-tuyen" Component={BookTicket}></Route>
       </Routes>
+      <Footer></Footer>
     </BrowserRouter>
   );
 }
