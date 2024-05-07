@@ -166,7 +166,7 @@ export default function BookTicket() {
 
                         <div class="divide py-[2px]"></div>
                         {/* Thanh Toán */}
-                        <div className="flex items-center p-6 bg-white">
+                        <div className="flex items-center p-6 bg-white rounded-b-xl border">
                             <div className="flex flex-col">
                                 <span className="w-16 rounded-xl bg-[#00613D] py-1 text-center text-xs text-white">PAYMENT</span>
                                 <span className="mt-2 text-2xl font-medium text-black">0đ</span>

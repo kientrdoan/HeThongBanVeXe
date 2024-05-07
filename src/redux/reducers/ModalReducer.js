@@ -1,13 +1,17 @@
 import { React } from "react";
-import { provice } from "../../asserts/province";
 
 const stateDefault = {
     title: "",
     positionLeft: "",
     Component: <p>Noi dung mac dinh</p>,
-    provice: provice,
-    origin: "Chọn điểm đi",
-    destination: "Chọn điểm đến",
+    origin: {
+        id: -1,
+        tenTinh: "Chọn điểm đi"
+    },
+    destination: {
+        id: -1,
+        tenTinh: "Chọn điểm đến"
+    },
 }
 
 export const ModalReducer = (state = stateDefault, action) => {
