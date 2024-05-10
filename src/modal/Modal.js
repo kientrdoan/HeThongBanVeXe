@@ -14,7 +14,7 @@ export default function Modal() {
                         <h5 className="modal-title" id="exampleModalLabel">{title}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                     </div>
-                    <div classname="modal-body">
+                    <div className="modal-body">
                         {Component}
                     </div>
                     {/* <div className="modal-footer">

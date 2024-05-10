@@ -11,18 +11,46 @@ import pickup from "../../asserts/pickup.svg";
 import station from "../../asserts/station.svg";
 import delete_filter from "../../asserts/delete.svg"
 import Bill from '../Bill/Bill'
-import { getChuyenXeAPI } from '../../redux/actions/HomeAction'
+import { getChuyenXeAPI, getVeXeByChuyenXeAPI } from '../../redux/actions/HomeAction'
 
 
 
 export default function Home() {
 
+  // Hàm chuyển đổi chuỗi thời gian "HH:MM" thành số phút
+  const timeStringToMinutes = (timeStr) => {
+    const [hours, minutes] = timeStr.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
+
+  // Hàm kiểm tra xem một giờ có nằm trong khoảng thời gian không
+  const isTimeInRange = (time, timeRange) => {
+    const timeInMinutes = timeStringToMinutes(time);
+    const [start, end] = timeRange.split(" - ");
+    const startInMinutes = timeStringToMinutes(start);
+    const endInMinutes = timeStringToMinutes(end);
+
+    return timeInMinutes >= startInMinutes && timeInMinutes <= endInMinutes;
+  };
+
+  // Hàm lọc các chuyến xe thỏa mãn ít nhất một khoảng thời gian
+  const filterChuyenXeByTimeRanges = (chuyenXeList, timeRanges) => {
+    if (timeRanges.length === 0) {
+      // Nếu `timeRanges` rỗng, trả về danh sách ban đầu
+      return chuyenXeList;
+    }
+    // console.log(timeRanges)
+    return chuyenXeList.filter((chuyenXe) => {
+      return timeRanges.some((range) => isTimeInRange(chuyenXe.gioXuatPhat, range));
+    });
+  };
+
   var today = new Date();
-  
+
 
   let [stateRoundTrip, setStateRoundTrip] = useState(false)
 
-  let [stateBtnSearch, setStateBtnSearch] = useState(false)
+  // let [stateBtnSearch, setStateBtnSearch] = useState(false)
 
   const [typeTicket, setTypeTicket] = useState(1);
 
@@ -38,24 +66,25 @@ export default function Home() {
 
   let dispatch = useDispatch()
 
-  let { chuyenXe } = useSelector(state => state.HomeReducer)
+  let { chuyenXe, chuyenXeStorage } = useSelector(state => state.HomeReducer)
 
   let handleSelectFilter = (selected) => {
     const index = filter.indexOf(selected)
-    console.log(index)
+    // console.log(index)
     if (index !== -1) {
       let newFilter = [...filter]
       newFilter.splice(index, 1)
       setFilter(newFilter)
-      console.log(filter)
+      // console.log(filter)
 
     }
     else {
       let newFilter = [...filter]
       newFilter.push(selected)
       setFilter(newFilter)
-      console.log(newFilter)
+      // console.log(newFilter)
     }
+    // console.log(filter)
   }
 
   const handleUnFilter = () => {
@@ -73,7 +102,6 @@ export default function Home() {
     setTypeTicket(value); // Cập nhật giá trị được chọn
   };
 
-
   // Xử lý liên quan đến ngày đi
   const [value, setValue] = useState({
     startDate: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate(),
@@ -81,7 +109,7 @@ export default function Home() {
   });
 
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
+    // console.log("newValue:", newValue);
     if (newValue.startDate !== null && newValue.endDate !== null) {
       setValue(newValue);
     } else {
@@ -117,7 +145,7 @@ export default function Home() {
   });
 
   const handleReturnDateChange = (newValue) => {
-    console.log("newValue:", newValue);
+    // console.log("newValue:", newValue);
     if (newValue.startDate !== null && newValue.endDate !== null) {
       setReturnDate(newValue);
     } else {
@@ -149,7 +177,7 @@ export default function Home() {
   // Ẩn hiện tab
   const hideTabPane = (tabPaneId) => {
     var tabPane = document.getElementById(tabPaneId);
-    console.log(tabPane)
+    // console.log(tabPane)
     if (tabPane.classList.contains("show")) {
       tabPane.classList.remove("active");
       tabPane.classList.remove("show"); // Loại bỏ lớp d-none để hiển thị tab-pane
@@ -160,13 +188,13 @@ export default function Home() {
     }
   }
 
-  const handleStateRoundTrip= ()=>{
-    if(typeTicket===1){
+  const handleStateRoundTrip = () => {
+    if (typeTicket === 1) {
       setStateRoundTrip(false)
-    }else if(typeTicket===2 && returnDate.startDate !== null){
+    } else if (typeTicket === 2 && returnDate.startDate !== null) {
       setStateRoundTrip(true)
     }
-    setStateBtnSearch(true)
+    // setStateBtnSearch(true)
   }
 
   // Goi Reducer
@@ -175,6 +203,7 @@ export default function Home() {
     // console.log(formatDate(value.startDate))
     // console.log(returnDate.startDate)
     dispatch(getChuyenXeAPI(tinhXuatPhat, tinhDen, ngayXuatPhat))
+    // setStateBtnSearch(true)
   }
 
   // Hàm để định dạng lại chuỗi giờ phút
@@ -233,7 +262,7 @@ export default function Home() {
   // ${styles["card-box-shadown"]} 
   const renderChuyenXe = () => {
     return chuyenXe.map((data, index) => {
-      return <div key={index} className={`border border-[#DDE2E8] bg-white pt-3 rounded-xl mb-[25px] overflow-hidden`}>
+      return <div key={index} id={data.id} className={`border border-[#DDE2E8] bg-white pt-3 rounded-xl mb-[25px] overflow-hidden`}>
         {/* Thong tin chuyen di */}
         <div className='px-[10px]'>
           <div className='flex gap-x-2.5'>
@@ -260,7 +289,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Loai xe cho trong */}
+            {/* Loai xe - cho trong */}
             <div className='flex flex-col'>
               <div className='flex gap-x-2.5'>
                 {/* Loai xe */}
@@ -287,12 +316,12 @@ export default function Home() {
           <div className='flex justify-between mb-3'>
             <div className=''>
               <ul className="flex" id={"myTab" + index} role="tablist">
-                <li onClick={() => { hideTabPane("home-tab-pane" + index) }} className="nav-item" role="presentation">
+                {/* <li onClick={() => { hideTabPane("home-tab-pane" + index); dispatch(getVeXeByChuyenXeAPI(1)) }} className="nav-item" role="presentation">
                   <button id={"home-tab" + index} data-bs-toggle="tab" data-bs-target={"home-tab-pane" + index} type="button" role="tab" aria-controls={"home-tab-pane" + index} aria-selected="false">Chọn ghế</button>
                 </li>
                 <li onClick={() => { hideTabPane("profile-tab-pane" + index) }} className="nav-item ml-[24px]" role="presentation">
                   <button id={"profile-tab" + index} data-bs-toggle="tab" data-bs-target={"profile-tab-pane" + index} type="button" role="tab" aria-controls={"profile-tab-pane" + index} aria-selected="false">Lịch trình</button>
-                </li>
+                </li> */}
                 <li onClick={() => { hideTabPane("contact-tab-pane" + index) }} className="nav-item ml-[24px]" role="presentation">
                   <button id={"contact-tab" + index} data-bs-toggle="tab" data-bs-target={"contact-tab-pane" + index} type="button" role="tab" aria-controls={"contact-tab-pane" + index} aria-selected="false">Chính sách</button>
                 </li>
@@ -307,12 +336,12 @@ export default function Home() {
 
         {/* Noi dung tab */}
         <div id="myTabContent" className={`${styles["custom-scroll-bar"]} overflow-auto tab-content m-1 bg-gray-100 max-h-[392px]`}>
-          <div className="tab-pane fade" id={"home-tab-pane" + index} role="tabpanel" aria-labelledby="home-tab" tabIndex={0}>
-            <Bill></Bill>
+          {/* <div className="tab-pane fade" id={"home-tab-pane" + index} role="tabpanel" aria-labelledby="home-tab" tabIndex={0}>
+            <Bill listMaGhe={data.listMaGhe}></Bill>
           </div>
           <div className="tab-pane fade" id={"profile-tab-pane" + index} role="tabpanel" aria-labelledby="profile-tab" tabIndex={0}>
             Lịch trình
-          </div>
+          </div> */}
           <div className="tab-pane fade" id={"contact-tab-pane" + index} role="tabpanel" aria-labelledby="contact-tab" tabIndex={0}>
             {/* Content */}
             <div className='py-[10px]'>
@@ -350,29 +379,36 @@ export default function Home() {
     })
   }
 
-  const handleTripOption= (e)=>{
+  const handleTripOption = (e) => {
     const tripOptions = document.querySelectorAll('.trip-option');
-    tripOptions.forEach(option=>{
+    tripOptions.forEach(option => {
       option.classList.remove('border-b-4', 'border-[#00613D]', 'border-b')
     })
     e.target.classList.add('border-b-4', 'border-[#00613D]', 'border-b')
   }
 
   const renderSelectRoundTrip = () => {
-    if(stateRoundTrip === false)
-    {
+    if (stateRoundTrip === false) {
       return;
     }
     // ${typeTicket === 2 && returnDate.startDate !== null? "" : "hidden"}
     return <div className={`text-center text-base font-medium uppercase flex bg-white mb-[25px]`}>
-            <div onClick={(e)=>{getChuyenXe(origin.id, destination.id, formatDate(value.startDate)); handleTripOption(e)}} className={`trip-option w-1/2 border-b-4 border-[#00613D] border-b py-2 cursor-pointer`}>
-              Chuyến đi - {formatDate(value.startDate)}
-            </div>
-            <div onClick={(e)=>{getChuyenXe(destination.id, origin.id, formatDate(returnDate.startDate)); handleTripOption(e)}} className={`trip-option w-1/2 py-2 text-orange cursor-pointer`}>
-              Chuyến về - {returnDate.startDate}
-            </div>
-          </div>
+      <div onClick={(e) => { getChuyenXe(origin.id, destination.id, formatDate(value.startDate)); handleTripOption(e) }} className={`trip-option w-1/2 border-b-4 border-[#00613D] border-b py-2 cursor-pointer`}>
+        Chuyến đi - {formatDate(value.startDate)}
+      </div>
+      <div onClick={(e) => { getChuyenXe(destination.id, origin.id, formatDate(returnDate.startDate)); handleTripOption(e) }} className={`trip-option w-1/2 py-2 text-orange cursor-pointer`}>
+        Chuyến về - {returnDate.startDate}
+      </div>
+    </div>
   }
+
+  useEffect(()=>{
+    dispatch({
+      type: "GET_CHUYEN_XE",
+      chuyenXe: filterChuyenXeByTimeRanges(chuyenXeStorage, filter),
+      chuyenXeStorage
+    })
+  }, [filter])
 
   return (
     <div>
@@ -515,7 +551,7 @@ export default function Home() {
 
             {/* Button tìm kiếm */}
             <div className="relative flex w-full justify-center">
-              <button onClick={()=>{handleStateRoundTrip(); getChuyenXe(origin.id, destination.id, formatDate(value.startDate))}} className="absolute z-10 h-12 rounded-full bg-orange-500 px-20 text-base text-white">Tìm chuyến xe</button>
+              <button onClick={() => { handleStateRoundTrip(); getChuyenXe(origin.id, destination.id, formatDate(value.startDate)) }} className="absolute z-10 h-12 rounded-full bg-orange-500 px-20 text-base text-white">Tìm chuyến xe</button>
             </div>
           </div>
         </div>
@@ -523,7 +559,7 @@ export default function Home() {
 
       {/* Loai Ghe- Hang Ghe- Tang Ghe */}
       {/* className={`w-full pt-12 ${Object.keys(chuyenXe).length === 0 ? "hidden" : ""}`} */}
-      <section style={{ background: "#fbfafa"}} className={`w-full pt-12`}>
+      <section style={{ background: "#fbfafa" }} className={`w-full pt-12`}>
         <div className='w-[1128px] m-auto flex gap-6'>
           {/* Bo loc */}
           <div className='w-[360px] border border-[#DDE2E8] bg-white pt-3 rounded-xl'>
@@ -538,31 +574,28 @@ export default function Home() {
               <span className='p-[16px]'>Giờ đi</span>
               <div className='ml-[10px] p-[16px]'>
                 <div>
-                  <input type='checkbox' name='gioDi' className='scale-150' value={1} onChange={(e)=>{
-                    if(e.target.checked===true){
-                      dispatch({
-                        type: "GET_CHUYEN_XE",
-                        chuyenXe: {},
-                      })
-                    }else{
-                      dispatch({
-                        type: "GET_CHUYEN_XE",
-                        chuyenXe: {},
-                      })
-                    }
-                  }}/>
+                  <input type='checkbox' name='gioDi' className='scale-150' value={1} onChange={(e) => {
+                    handleSelectFilter("00:00 - 06:00")
+                    // console.log(filter)
+                  }} />
                   <label className='px-[8px] ml-1'>Sáng sớm 00:00 - 06:00 (0)</label>
                 </div>
                 <div>
-                  <input type='checkbox' name='gioDi' className='scale-150' value={2} />
+                  <input type='checkbox' name='gioDi' className='scale-150' value={2} onChange={(e) => {
+                    handleSelectFilter("06:00 - 12:00")
+                  }} />
                   <label className='px-[8px] ml-1'>Buổi sáng 06:00 - 12:00 (0)</label>
                 </div>
                 <div>
-                  <input type='checkbox' name='gioDi' className='scale-150' value={3} />
+                  <input type='checkbox' name='gioDi' className='scale-150' value={3} onChange={(e)=>{
+                    handleSelectFilter("12:00 - 18:00")
+                  }} />
                   <label className='px-[8px] ml-1'>Buổi chiều 12:00 - 18:00 (0)</label>
                 </div>
                 <div>
-                  <input type='checkbox' name='gioDi' className='scale-150' value={4} />
+                  <input type='checkbox' name='gioDi' className='scale-150' value={4} onChange={(e)=>{
+                    handleSelectFilter("18:00 - 24:00")
+                  }}/>
                   <label className='px-[8px] ml-1'>Buổi tối 18:00 - 24:00 (0)</label>
                 </div>
               </div>
