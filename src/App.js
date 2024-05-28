@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 // import './App.css';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import AuthPage from './pages/Auth/AuthPage';
 import Header from './components/header/Header';
 import Home from './pages/Home/Home';
@@ -11,6 +11,7 @@ import Modal from './modal/Modal';
 import Bill from './pages/Bill/Bill';
 import Footer from './components/footer/Footer';
 import BookTicket from './pages/BookTicket/BookTicket';
+import PaymentDetail from './pages/PaymentDetail/PaymentDetail'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/tra-cuu-ve" Component={ConsultPage}></Route>
         <Route path="/hoa-don" Component={Bill}></Route>
         <Route path="/chon-tuyen" Component={BookTicket}></Route>
+          <Route path="/thanh-toan" Component={PaymentDetail}></Route>
       </Routes>
       <Footer></Footer>
     </BrowserRouter>
