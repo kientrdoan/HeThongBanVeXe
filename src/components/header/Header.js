@@ -12,22 +12,22 @@ export default function Header() {
     return (
         <div className={`${styles["header-home-page"]} relative mx-auto w-full bg-white text-[13px] block h-[220px]`}>
             <div className="flex m-auto w-[1128px] h-[80px]">
-                {/* <div class="mt-4 flex flex-1 items-start">
-                    <div class="ant-dropdown-trigger flex cursor-pointer items-center">
+                {/* <div className="mt-4 flex flex-1 items-start">
+                    <div className="ant-dropdown-trigger flex cursor-pointer items-center">
                         <img src="/images/icons/vietnam.svg" width="26" alt="language icon"/>
-                        <span class="mx-2 uppercase text-white">vi</span>
+                        <span className="mx-2 uppercase text-white">vi</span>
                         <img src="/images/icons/icon_form_droplist.svg" alt="icon_form_droplist"/>
                     </div>
-                    <div class="ml-4 border-l pl-4">
-                        <div class="ant-dropdown-trigger flex cursor-pointer items-center">
+                    <div className="ml-4 border-l pl-4">
+                        <div className="ant-dropdown-trigger flex cursor-pointer items-center">
                             <img src="/images/icons/download_app.svg" width="26" alt="download app icon"/>
-                            <span class="mx-2 text-white">Tải ứng dụng</span>
+                            <span className="mx-2 text-white">Tải ứng dụng</span>
                             <img src="/images/icons/icon_form_droplist.svg" alt="icon_form_droplist"/>
                         </div>
                     </div>
                 </div> */}
 
-                <div class="mt-4 flex flex-1 items-start"></div>
+                <div className="mt-4 flex flex-1 items-start"></div>
 
                 <div className="logo-banner z-10 mx-20">
                     <NavLink to="/">

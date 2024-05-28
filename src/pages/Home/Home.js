@@ -10,8 +10,7 @@ import circle_checkbox_checked from '../../asserts/circle_checkbox_checked.svg';
 import pickup from "../../asserts/pickup.svg";
 import station from "../../asserts/station.svg";
 import delete_filter from "../../asserts/delete.svg"
-import Bill from '../Bill/Bill'
-import { getChuyenXeAPI, getVeXeByChuyenXeAPI } from '../../redux/actions/HomeAction'
+import { getChuyenXeAPI } from '../../redux/actions/HomeAction'
 
 
 
@@ -35,11 +34,12 @@ export default function Home() {
 
   // Hàm lọc các chuyến xe thỏa mãn ít nhất một khoảng thời gian
   const filterChuyenXeByTimeRanges = (chuyenXeList, timeRanges) => {
+    // console.log("hre: ", timeRanges)
     if (timeRanges.length === 0) {
       // Nếu `timeRanges` rỗng, trả về danh sách ban đầu
       return chuyenXeList;
     }
-    // console.log(timeRanges)
+    
     return chuyenXeList.filter((chuyenXe) => {
       return timeRanges.some((range) => isTimeInRange(chuyenXe.gioXuatPhat, range));
     });
@@ -66,7 +66,7 @@ export default function Home() {
 
   let dispatch = useDispatch()
 
-  let { chuyenXe, chuyenXeStorage } = useSelector(state => state.HomeReducer)
+  let { listChuyenXe, listChuyenXeStorage } = useSelector(state => state.HomeReducer)
 
   let handleSelectFilter = (selected) => {
     const index = filter.indexOf(selected)
@@ -261,7 +261,8 @@ export default function Home() {
 
   // ${styles["card-box-shadown"]} 
   const renderChuyenXe = () => {
-    return chuyenXe.map((data, index) => {
+    // console.log(chuyenXe)
+    return listChuyenXe.map((data, index) => {
       return <div key={index} id={data.id} className={`border border-[#DDE2E8] bg-white pt-3 rounded-xl mb-[25px] overflow-hidden`}>
         {/* Thong tin chuyen di */}
         <div className='px-[10px]'>
@@ -295,12 +296,12 @@ export default function Home() {
                 {/* Loai xe */}
                 <div className='flex items-center gap-x-1'>
                   <div className="h-[6px] w-[6px] rounded-full bg-[#C8CCD3]"></div>
-                  <span>Limousine</span>
+                  <span>{data.loaiXe}</span>
                 </div>
                 {/* Cho trong */}
                 <div className='flex items-center gap-x-1'>
                   <div className="h-[6px] w-[6px] rounded-full bg-[#C8CCD3]"></div>
-                  <span>1 chỗ trống</span>
+                  <span>{data.choTrong} chỗ trống</span>
                 </div>
               </div>
               <div className='flex flex-1 items-end justify-end'>
@@ -312,23 +313,29 @@ export default function Home() {
           {/* Lan phan cach */}
           <div className="w-full h-[0.5px] bg-black bg-opacity-10 my-3"></div>
 
-          {/* Chon Chuyen bottom  */}
+          {/* Chon Chuyen bottom - Chinh Sach */}
           <div className='flex justify-between mb-3'>
             <div className=''>
               <ul className="flex" id={"myTab" + index} role="tablist">
-                {/* <li onClick={() => { hideTabPane("home-tab-pane" + index); dispatch(getVeXeByChuyenXeAPI(1)) }} className="nav-item" role="presentation">
-                  <button id={"home-tab" + index} data-bs-toggle="tab" data-bs-target={"home-tab-pane" + index} type="button" role="tab" aria-controls={"home-tab-pane" + index} aria-selected="false">Chọn ghế</button>
-                </li>
-                <li onClick={() => { hideTabPane("profile-tab-pane" + index) }} className="nav-item ml-[24px]" role="presentation">
-                  <button id={"profile-tab" + index} data-bs-toggle="tab" data-bs-target={"profile-tab-pane" + index} type="button" role="tab" aria-controls={"profile-tab-pane" + index} aria-selected="false">Lịch trình</button>
-                </li> */}
                 <li onClick={() => { hideTabPane("contact-tab-pane" + index) }} className="nav-item ml-[24px]" role="presentation">
                   <button id={"contact-tab" + index} data-bs-toggle="tab" data-bs-target={"contact-tab-pane" + index} type="button" role="tab" aria-controls={"contact-tab-pane" + index} aria-selected="false">Chính sách</button>
                 </li>
               </ul>
             </div>
 
-            <NavLink type="button" className="btn btn-success" to="/chon-tuyen">
+            <NavLink onClick={()=>{
+              dispatch({
+                type: "GET_VE_XE_BY_CHUYEN_XE",
+                chuyenXe: {
+                  listMaGhe: data.listMaGhe,
+                  tinhXuatPhat: data.tenTinhDi,
+                  tinhDen: data.tenTinhDen,
+                  ngayXuatPhat: data.ngayKhoiHanh,
+                  gioXuatPhat: data.gioXuatPhat,
+                  gia: data.gia,
+                },
+              })
+            }} type="button" className="btn btn-success" to="/chon-tuyen">
               <span>Chọn chuyến</span>
             </NavLink>
           </div>
@@ -336,12 +343,6 @@ export default function Home() {
 
         {/* Noi dung tab */}
         <div id="myTabContent" className={`${styles["custom-scroll-bar"]} overflow-auto tab-content m-1 bg-gray-100 max-h-[392px]`}>
-          {/* <div className="tab-pane fade" id={"home-tab-pane" + index} role="tabpanel" aria-labelledby="home-tab" tabIndex={0}>
-            <Bill listMaGhe={data.listMaGhe}></Bill>
-          </div>
-          <div className="tab-pane fade" id={"profile-tab-pane" + index} role="tabpanel" aria-labelledby="profile-tab" tabIndex={0}>
-            Lịch trình
-          </div> */}
           <div className="tab-pane fade" id={"contact-tab-pane" + index} role="tabpanel" aria-labelledby="contact-tab" tabIndex={0}>
             {/* Content */}
             <div className='py-[10px]'>
@@ -402,13 +403,12 @@ export default function Home() {
     </div>
   }
 
-  useEffect(()=>{
-    dispatch({
-      type: "GET_CHUYEN_XE",
-      chuyenXe: filterChuyenXeByTimeRanges(chuyenXeStorage, filter),
-      chuyenXeStorage
-    })
-  }, [filter])
+  useEffect(()=>{dispatch({
+    type: "GET_CHUYEN_XE",
+    listChuyenXe: filterChuyenXeByTimeRanges(listChuyenXeStorage, filter),
+    listChuyenXeStorage
+
+  })}, [filter])
 
   return (
     <div>
@@ -575,7 +575,7 @@ export default function Home() {
               <div className='ml-[10px] p-[16px]'>
                 <div>
                   <input type='checkbox' name='gioDi' className='scale-150' value={1} onChange={(e) => {
-                    handleSelectFilter("00:00 - 06:00")
+                    handleSelectFilter("00:00 - 06:00");
                     // console.log(filter)
                   }} />
                   <label className='px-[8px] ml-1'>Sáng sớm 00:00 - 06:00 (0)</label>
@@ -599,29 +599,6 @@ export default function Home() {
                   <label className='px-[8px] ml-1'>Buổi tối 18:00 - 24:00 (0)</label>
                 </div>
               </div>
-
-              <div className="w-full h-[0.5px] bg-black bg-opacity-10"></div>
-              <span className='p-[16px]'>Loại xe</span>
-              <div className="mt-2 flex flex-wrap gap-2 p-[16px]">
-                <div onClick={() => { handleSelectFilter("Ghế") }} className={`cursor-pointer rounded-md border ${filter.includes("Ghế") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Ghế</div>
-                <div onClick={() => { handleSelectFilter("Giường") }} className={`cursor-pointer rounded-md border ${filter.includes("Giường") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Giường</div>
-                <div onClick={() => { handleSelectFilter("Limousine") }} className={`cursor-pointer rounded-md border ${filter.includes("Limousine") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Limousine</div>
-              </div>
-
-              <div className="w-full h-[0.5px] bg-black bg-opacity-10"></div>
-              <span className='p-[16px]'>Hàng ghế</span>
-              <div className="mt-2 flex flex-wrap gap-2 p-[16px]">
-                <div onClick={() => { handleSelectFilter("Hàng đầu") }} className={`cursor-pointer rounded-md border ${filter.includes("Hàng đầu") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Hàng đầu</div>
-                <div onClick={() => { handleSelectFilter("Hàng giữa") }} className={`cursor-pointer rounded-md border ${filter.includes("Hàng giữa") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Hàng giữa</div>
-                <div onClick={() => { handleSelectFilter("Cuối") }} className={`cursor-pointer rounded-md border ${filter.includes("Cuối") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Cuối</div>
-              </div>
-
-              <div className="w-full h-[0.5px] bg-black bg-opacity-10"></div>
-              <span className='p-[16px]'>Tầng</span>
-              <div className="mt-2 flex flex-wrap gap-2 p-[16px]">
-                <div onClick={() => { handleSelectFilter("Tầng trên") }} className={`cursor-pointer rounded-md border ${filter.includes("Tầng trên") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Tầng trên</div>
-                <div onClick={() => { handleSelectFilter("Tầng dưới") }} className={`cursor-pointer rounded-md border ${filter.includes("Tầng dưới") ? "bg-orange-300" : "bg-white"} py-1 px-3 text-[14px] font-normal border-[#DDE2E8]`}>Tầng dưới</div>
-              </div>
             </div>
           </div>
 
@@ -629,14 +606,14 @@ export default function Home() {
           <div className='flex-1'>
             {/* Header Origin - Destination */}
             <div className='pb-[24px]'>
-              <div className="text-xl font-medium block">{origin.tenTinh}  - {destination.tenTinh}  ({chuyenXe.length})</div>
+              <div className="text-xl font-medium block">{origin.tenTinh}  - {destination.tenTinh}  ({listChuyenXe.length})</div>
             </div>
 
             {/* Thanh Chọn Chuyến Đi- Chuyến Về */}
             {renderSelectRoundTrip()}
 
             {/* Render Chuyen Xe */}
-            {Object.keys(chuyenXe).length !== 0 ? renderChuyenXe() : ""}
+            {Object.keys(listChuyenXe).length !== 0 ? renderChuyenXe() : ""}
           </div>
 
         </div>

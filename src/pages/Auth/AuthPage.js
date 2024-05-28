@@ -1,6 +1,8 @@
 import styles from "./style.module.css";
 import iconCoach from "../../asserts/icon_coach.png";
 import iconWorld from "../../asserts/icon_world.png";
+import Axios from "axios";
+import { NavLink } from "react-router-dom";
 
 function AuthPage() {
 	function toggle() {
@@ -9,13 +11,29 @@ function AuthPage() {
 	}
 
 	function handleSignInForm(e) {
+		e.preventDefault();
 		const username = e.target.username.value;
 		const password = e.target.password.value;
 		// XỬ LÝ API ĐĂNG NHẬP.
+		let promise =  Axios({
+            url: "http://localhost:8080/auth/login",
+            method: "GET",
+            data: {
+              username: username,
+			  password: password,
+            }
+          })
+		promise.then((result)=>{
+			localStorage.setItem(username, result.data.data);
+			console.log(result.data.data);
+		})
+		promise.catch((e)=>{
+			console.log(e);
+		})
 	}
 
 	function handleSignUpForm(e) {
-		const username = e.target.username.value;
+		// const username = e.target.username.value;
 		const password = e.target.password.value;
 		const password2 = e.target.password2.value;
 
@@ -35,18 +53,6 @@ function AuthPage() {
 					<form onSubmit={handleSignUpForm}>
 						<h1>TẠO TÀI KHOẢN</h1>
 						<div className={styles["social-icons"]}>
-							{/* <a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-google-plus-g"></i>
-							</a>
-							<a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-facebook-f"></i>
-							</a>
-							<a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-github"></i>
-							</a>
-							<a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-linkedin-in"></i>
-							</a> */}
 						</div>
 						<input
 							name="username"
@@ -103,7 +109,7 @@ function AuthPage() {
 							placeholder="Mật khẩu"
 							required
 						/>
-						<a href="#">Quên mật khẩu?</a>
+						<NavLink >Quên mật khẩu?</NavLink>
 						<button type="submit">Đăng nhập</button>
 					</form>
 				</div>

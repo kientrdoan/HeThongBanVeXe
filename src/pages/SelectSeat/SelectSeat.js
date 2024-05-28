@@ -1,129 +1,105 @@
-import React, { useState } from 'react';
+import React from 'react';
 import seat_active from "../../asserts/seat_active.svg";
 import seat_selecting from "../../asserts/seat_selecting.svg";
 import seat_disabled from "../../asserts/seat_disabled.svg"
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Bill() {
+export default function SelectSeat() {
+    let dispatch = useDispatch()
+    let { chuyenXe, selectSeat } = useSelector(state => state.HomeReducer)
 
-    let seat_list = [{
-        name: "A01",
-        state: "disabled",
-    }, {
-        name: "A02",
-        state: "disabled",
-    }, {
-        name: "A03",
-        state: "disabled",
-    }, {
-        name: "A04",
-        state: "disabled",
-    }, {
-        name: "A05",
-        state: "disabled",
-    }, {
-        name: "A06",
-        state: "disabled",
-    }, {
-        name: "A07",
-        state: "disabled",
-    }, {
-        name: "A08",
-        state: "active",
-    }]
 
-    let [state, setState]= useState({
-        list_data: seat_list,
-    })
-
-    const handleSelecting= (index, new_state)=>{
-        var new_data= state.list_data;
-        // new_data[index].state= new_state
-        
-        if(new_data[index].state === "active"){
-            new_data[index].state= "selecting"
-        }else if(new_data[index].state === "selecting"){
-            new_data[index].state= "active"
-        }
-        console.log(index, new_data[index].state)
-        setState({
-            list_data: new_data
-        })
-    }
-
-    const render_seat = () => {
-        var isLineTwo = 0;
-        return seat_list.map((seat, index) => {
-            if (index === 0) {
-                return <tr className="flex items-center gap-1 justify-between">
-                    <td onClick={()=>{handleSelecting(index, "selecting")}} className={`relative mt-1 flex justify-center text-center ${state.list_data[index].state==="disabled"? "cursor-not-allowed": "cursor-pointer"}`}>
-                        {seat.state === "disabled" ? (
-                            <img width={32} src={seat_disabled} alt="seat icon" />
-                        ) : seat.state === "active" ? (
-                            <img width={32} src={seat_active} alt="seat icon" />
-                        ) : (
-                            <img width={32} src={seat_selecting} alt="seat icon" />
-                        )}
-                        <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">{seat.name}</span>
-                    </td>
-                    <td className="relative w-6" />
-                    <td className="relative w-6" />
-                    <td className="relative w-6" />
-                    <td onClick={()=>{handleSelecting(index + 1, "selecting")}} className={`relative mt-1 flex justify-center text-center ${state.list_data[index + 1].state==="disabled"? "cursor-not-allowed": "cursor-pointer"}`}>
-                        {seat_list[index + 1].state === "disabled" ? (
-                            <img width={32} src={seat_disabled} alt="seat icon" />
-                        ) : seat_list[index + 1].state === "active" ? (
-                            <img width={32} src={seat_active} alt="seat icon" />
-                        ) : (
-                            <img width={32} src={seat_selecting} alt="seat icon" />
-                        )}
-                        <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">{seat_list[index + 1].name}</span>
-                    </td>
-                </tr>
-
-            } else if (index > 1 && index < seat_list.length - 2 && index + 2 < seat_list.length - 2) {
-                if (isLineTwo > 0 && index + 2 < seat_list.length - 2) {
-                    index += 2;
+    const handleSelectSeat = (seat) => {
+        // console.log(seat)
+        let index = selectSeat.indexOf(seat)
+        let existInListVeXe= chuyenXe.listMaGhe.indexOf(seat)
+        if(existInListVeXe === -1){
+            if (index !== -1) {
+                let newData = [...selectSeat]
+                newData.splice(index, 1)
+                dispatch({
+                    type: "CHANGE_SELECT_SEAT",
+                    selectSeat: newData,
+                })
+            } else {
+                if (selectSeat.length < 5) {
+                    let newData = [...selectSeat]
+                    newData.push(seat)
+                    dispatch({
+                        type: "CHANGE_SELECT_SEAT",
+                        selectSeat: newData,
+                    })
                 }
-                isLineTwo += 1;
-                return <tr className="flex items-center gap-1 justify-between">
-                    <td onClick={()=>{handleSelecting(index, "selecting")}} className={`relative mt-1 flex justify-center text-center ${state.list_data[index].state==="disabled"? "cursor-not-allowed": "cursor-pointer"}`}>
-                        {seat_list[index].state === "disabled" ? (
-                            <img width={32} src={seat_disabled} alt="seat icon" />
-                        ) : seat_list[index].state === "active" ? (
-                            <img width={32} src={seat_active} alt="seat icon" />
-                        ) : (
-                            <img width={32} src={seat_selecting} alt="seat icon" />
-                        )}
-                        <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">{seat_list[index].name}</span>
-                    </td>
-                    <td className="relative w-6" />
-                    <td onClick={()=>{handleSelecting(index + 1, "selecting")}} className={`relative mt-1 flex justify-center text-center ${state.list_data[index + 1].state==="disabled"? "cursor-not-allowed": "cursor-pointer"}`}>
-                        {seat_list[index + 1].state === "disabled" ? (
-                            <img width={32} src={seat_disabled} alt="seat icon" />
-                        ) : seat_list[index + 1].state === "active" ? (
-                            <img width={32} src={seat_active} alt="seat icon" />
-                        ) : (
-                            <img width={32} src={seat_selecting} alt="seat icon" />
-                        )}
-                        <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">{seat_list[index + 1].name}</span>
-                    </td>
-                    <td className="relative w-6" />
-                    <td onClick={()=>{handleSelecting(index + 2, "selecting")}} className={`relative mt-1 flex justify-center text-center ${state.list_data[index + 2].state==="disabled"? "cursor-not-allowed": "cursor-pointer"}`}>
-                        {state.list_data[index + 2].state === "disabled" ? (
-                            <img width={32} src={seat_disabled} alt="seat icon" />
-                        ) : state.list_data[index + 2].state === "active" ? (
-                            <img width={32} src={seat_active} alt="seat icon" />
-                        ) : (
-                            <img width={32} src={seat_selecting} alt="seat icon" />
-                        )}
-                        <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">{seat_list[index + 2].name}</span>
-                    </td>
-                </tr>
             }
-        })
+        }
+        // console.log(selectSeat)
     }
 
+    function getSeatLabel(label, numberSeat) {
+        // Thêm số 0 phía trước nếu số ghế ít hơn 10
+        const seatNumber = String(numberSeat).padStart(2, '0'); // Chuyển số thành chuỗi, thêm 0 nếu cần
+        const seatLabel = `${label}${seatNumber}`; // Tạo định dạng ghế như "A01", "A02", v.v.
+        return seatLabel;
+    }
 
+    const render_seat = (label) => {
+        const rows = [];
+        let numberSeat = 1;
+
+        // Lặp qua từng dòng để tạo ra hàng ghế
+        for (let i = 0; i < 6; i += 1) {
+            const number = numberSeat;
+            if (i === 0) {
+                const row = (
+                    <tr key={numberSeat} className="flex items-center gap-1 justify-between">
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number)) ? seat_selecting : seat_active} alt="seat icon" />
+                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat)}</span>
+                        </td>
+                        <td className="relative w-6" />
+                        <td className="relative w-6" />
+                        <td className="relative w-6" />
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 1)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat+1))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 1)) ? seat_selecting : seat_active} alt="seat icon" />
+                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat + 1)}</span>
+                        </td>
+                    </tr>
+                );
+                rows.push(row);
+                numberSeat += 2;
+            } else {
+                const row = (
+                    <tr key={numberSeat} className="flex items-center gap-1 justify-between">
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number)) ? seat_selecting : seat_active} alt="seat icon" />
+                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat)}</span>
+                        </td>
+                        <td className="relative w-6" />
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 1)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat+1))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 1)) ? seat_selecting : seat_active} alt="seat icon" />
+                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat + 1)}</span>
+                        </td>
+                        <td className="relative w-6" />
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 2)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat+2))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+2)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 2)) ? seat_selecting : seat_active} alt="seat icon" />
+                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat + 2)}</span>
+                        </td>
+                    </tr>
+                );
+                rows.push(row)
+                numberSeat += 3;
+            }
+
+        }
+
+        return (
+            <table>
+                <tbody>
+                    {rows} {/* Thêm tất cả các hàng vào bảng */}
+                </tbody>
+            </table>
+        );
+    }
 
     return (
         <div className=''>
@@ -152,15 +128,7 @@ export default function Bill() {
                                 <span>Tầng dưới</span>
                             </div>
                             <div className="divide mb-4" />
-                            {/* Table Hang Ghe */}
-                            <table>
-                                <tbody>
-
-                                    {render_seat()}
-                                </tbody>
-                            </table>
-
-
+                            {render_seat("A")}
                         </div>
 
                         <div className="flex min-w-[50%] flex-col">
@@ -168,56 +136,7 @@ export default function Bill() {
                                 <span>Tầng trên</span>
                             </div>
                             <div className="divide mb-4 2lg:hidden" />
-                            <table>
-                                <tbody>
-                                    <tr className="flex items-center gap-1 justify-between">
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A01</span>
-                                        </td>
-                                        <td className="relative w-6" />
-                                        <td className="relative w-6" />
-                                        <td className="relative w-6" />
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A02</span>
-                                        </td>
-                                    </tr>
-                                    <tr className="flex items-center gap-1 justify-between">
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A03</span>
-                                        </td>
-                                        <td className="relative w-6" />
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A04</span>
-                                        </td>
-                                        <td className="relative w-6" />
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A05</span>
-                                        </td>
-                                    </tr>
-                                    <tr className="flex items-center gap-1 justify-between">
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A03</span>
-                                        </td>
-                                        <td className="relative w-6" />
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A04</span>
-                                        </td>
-                                        <td className="relative w-6" />
-                                        <td className="relative mt-1 flex justify-center text-center cursor-not-allowed">
-                                            <img width={32} src={seat_disabled} alt="seat icon" />
-                                            <span className="absolute text-sm font-semibold text-[#A2ABB3] top-1">A05</span>
-                                        </td>
-                                    </tr>
-                                    {/* Các hàng khác tương tự */}
-                                </tbody>
-                            </table>
+                            {render_seat("B")}
                         </div>
                     </div>
 

@@ -190,13 +190,6 @@ export default function Bill(props) {
                                 <span>Tầng dưới</span>
                             </div>
                             <div className="divide mb-4" />
-                            {/* Table Hang Ghe */}
-                            {/* <table>
-                                <tbody> */}
-
-                            {/* {render_seat()} */}
-                            {/* </tbody>
-                            </table> */}
                             {render_seat("A")}
                         </div>
 

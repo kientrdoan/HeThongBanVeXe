@@ -20,23 +20,23 @@ export const ModalReducer = (state = stateDefault, action) => {
             state.title = action.title;
             state.positonLeft = action.positionLeft;
             state.Component = action.Component;
-            console.log(state)
+            // console.log(state)
             return { ...state };
         case "OPEN_FORM_DEN":
             state.title = action.title;
             state.positonLeft = action.positionLeft;
             state.Component = action.Component;
-            console.log(state)
+            // console.log(state)
             return { ...state };
         case "ORIGIN_LOCALTION":
             state.title = action.title;
             state.Component = action.Component;
             state.origin = action.origin;
-            console.log(state)
+            // console.log(state)
             return { ...state };
         case "DESTINATION_LOCALTION":
             const newState= {...state, destination: action.destination}
-            console.log(state)
+            // console.log(state)
             return { ...newState };
         default:
             return { ...state }

@@ -2,8 +2,11 @@ import React from 'react'
 import SelectSeat from "../SelectSeat/SelectSeat"
 import styles from "./BookTicket.module.css"
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function BookTicket() {
+
+    let {chuyenXe, selectSeat}= useSelector(state=> state.HomeReducer)
 
     const handleOnFocus = (idWrapCust) => {
         var wrap = document.getElementById(idWrapCust);
@@ -13,15 +16,6 @@ export default function BookTicket() {
     const handleOnBlur = (idWrapCust) => {
         var wrap = document.getElementById(idWrapCust);
         wrap.classList.remove(`${styles["ant-input-wrapper-focused"]}`);
-    }
-
-    const handleRadioClick = (name) => {
-        var radios = document.getElementsByTagName('input');
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].type === 'radio' && radios[i].checked) {
-
-            }
-        }
     }
 
 
@@ -36,7 +30,7 @@ export default function BookTicket() {
                             <SelectSeat></SelectSeat>
                         </div>
 
-                        <div class="divide py-[2px]"></div>
+                        <div className="divide py-[2px]"></div>
 
                         {/* Thông Tin Cá Nhân */}
                         <div className="flex w-full flex-row gap-6 px-6 py-4 text-[15px] bg-white">
@@ -45,52 +39,50 @@ export default function BookTicket() {
 
 
                                 <label for="CustName" className="ant-form-item-required ant-form-item-required-mark-optional" title="">
-                                    <div class="flex">Họ và tên
+                                    <div className="flex">Họ và tên
                                         <span className="ml-1 text-base text-[#E12424]">*</span>
                                     </div>
                                 </label>
                                 <span id="WrapCustName" className={`${styles["input-form"]} mb-4`}>
-                                    <input onFocus={() => { handleOnFocus("WrapCustName") }} onBlur={() => { handleOnBlur("WrapCustName") }}
-                                        className={`${styles["ant-input"]}`} type="text" name="name" id="CustName" value="" />
+                                    <input onChange={()=>{}} onFocus={() => { handleOnFocus("WrapCustName") }} onBlur={() => { handleOnBlur("WrapCustName") }}
+                                        className={`${styles["ant-input"]}`} type="text" name="name" id="CustName"/>
                                 </span>
 
                                 <label for="CustMobile" className="ant-form-item-required ant-form-item-required-mark-optional" title="">
-                                    <div class="flex">Số điện thoại
+                                    <div className="flex">Số điện thoại
                                         <span className="ml-1 text-base text-[#E12424]">*</span>
                                     </div>
                                 </label>
                                 <span id="WrapCustMobile" className={`${styles["input-form"]} mb-4`}>
-                                    <input onFocus={() => { handleOnFocus("WrapCustMobile") }} onBlur={() => { handleOnBlur("WrapCustMobile") }}
-                                        className={`${styles["ant-input"]}`} type="text" name="mobile" id="CustMobile" value="" />
+                                    <input onChange={()=>{}} onFocus={() => { handleOnFocus("WrapCustMobile") }} onBlur={() => { handleOnBlur("WrapCustMobile") }}
+                                        className={`${styles["ant-input"]}`} type="text" name="mobile" id="CustMobile"/>
                                 </span>
 
                                 <label for="CustEmail" className="ant-form-item-required ant-form-item-required-mark-optional" title="">
-                                    <div class="flex">Email
+                                    <div className="flex">Email
                                         <span className="ml-1 text-base text-[#E12424]">*</span>
                                     </div>
                                 </label>
                                 <span id="WrapCustEmail" className={`${styles["input-form"]} mb-4`}>
-                                    <input onFocus={() => { handleOnFocus("WrapCustEmail") }} onBlur={() => { handleOnBlur("WrapCustEmail") }}
-                                        className={`${styles["ant-input"]}`} type="text" name="email" id="CustEmail" value="" />
+                                    <input onChange={()=>{}} onFocus={() => { handleOnFocus("WrapCustEmail") }} onBlur={() => { handleOnBlur("WrapCustEmail") }}
+                                        className={`${styles["ant-input"]}`} type="text" name="email" id="CustEmail"/>
                                 </span>
-
-
 
                             </div>
                             <div className="content-editor flex h-full flex-1 flex-col text-justify text-sm">
                                 <p className="mb-6 text-center text-base font-medium text-orange">ĐIỀU KHOẢN &amp; LƯU Ý</p>
                                 <div>
                                     <p>
-                                        (*) <span style={{ color: 'rgb(0, 0, 0)' }}>Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS LINE. </span>Vui lòng liên hệ Trung tâm tổng đài <NavLink target="_self" className="text-orange" to="tel:19006067"><span style={{ color: '#ef5222' }}>1900 6067</span></NavLink><NavLink target="_blank" className="text-orange" to="tel:1900 6067"> </NavLink>để được hỗ trợ.
-                                    </p>
-                                    <p style={{ textAlign: 'justify' }}>
-                                        (*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển <a target="_self" rel="" className="text-orange" href="tel:19006067"><span style={{ color: '#ef5222' }}>1900 6918</span></a> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe trung chuyển không thể tới được.
+                                        (*) <span style={{ color: 'rgb(0, 0, 0)' }}>
+                                                Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, 
+                                                mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ hệ thống. 
+                                            </span>
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="divide py-[2px]"></div>
+                        <div className="divide py-[2px]"></div>
 
                         {/* Thông Tin Điểm Đón Trả */}
                         <div className="flex w-full bg-white">
@@ -115,7 +107,7 @@ export default function BookTicket() {
                                         </div>
 
                                         <div className="flex w-full cursor-pointer items-center justify-between border border-gray-300 text-sm p-2">
-                                            <span>BX An Suong</span>
+                                            <span>BX {chuyenXe.tinhXuatPhat}</span>
                                             <div className="icon-gray">
                                             </div>
                                         </div>
@@ -123,8 +115,8 @@ export default function BookTicket() {
                                         {/* Thông Báo */}
                                         <div className="flex flex-wrap gap-1">
                                             <span>Quý khách vui lòng có mặt tại Bến xe/Văn Phòng</span>
-                                            <span className="font-semibold">BX An Suong</span>
-                                            <span className="font-semibold text-red-500">Trước 13:45 21/04/2024</span>
+                                            <span className="font-semibold">BX {chuyenXe.tinhXuatPhat}</span>
+                                            <span className="font-semibold text-red-500">Trước {chuyenXe.gioXuatPhat} {chuyenXe.ngayXuatPhat}</span>
                                             <span>để được trung chuyển hoặc kiểm tra thông tin trước khi lên xe.</span>
                                         </div>
                                     </div>
@@ -155,7 +147,7 @@ export default function BookTicket() {
                                             </div>
                                         </div>
                                         <div className="flex w-full cursor-pointer items-center justify-between border p-2 text-[15px]">
-                                            <span>Da Lat</span>
+                                            <span>BX {chuyenXe.tinhDen}</span>
                                             <div className="flex items-center justify-center">                                            </div>
                                         </div>
 
@@ -164,12 +156,12 @@ export default function BookTicket() {
                             </div>
                         </div>
 
-                        <div class="divide py-[2px]"></div>
+                        <div className="divide py-[2px]"></div>
                         {/* Thanh Toán */}
                         <div className="flex items-center p-6 bg-white rounded-b-xl border">
                             <div className="flex flex-col">
                                 <span className="w-16 rounded-xl bg-[#00613D] py-1 text-center text-xs text-white">PAYMENT</span>
-                                <span className="mt-2 text-2xl font-medium text-black">0đ</span>
+                                <span className="mt-2 text-2xl font-medium text-black">{selectSeat.length * chuyenXe.gia}đ</span>
                             </div>
                             <div className="flex flex-auto items-center justify-end">
                                 <button type="button" className="bg-gray-200 text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full py-2 px-4 mr-6 w-28 transition ease-in duration-150">
@@ -189,23 +181,23 @@ export default function BookTicket() {
                             <p className="icon-orange flex gap-4 text-xl font-medium text-black">Thông tin lượt đi</p>
                             <div className="mt-4 flex justify-between">
                                 <span className="text-gray w-20">Tuyến xe</span>
-                                <span className="text-right text-black">Can Tho ⇒ Sai Gon</span>
+                                <span className="text-right text-black">{chuyenXe.tinhXuatPhat} ⇒ {chuyenXe.tinhDen}</span>
                             </div>
                             <div className="mt-1 flex items-center justify-between">
                                 <span className="text-gray w-30">Thời gian xuất bến</span>
-                                <span className="text-[#00613D]">01:00 21-04-2024</span>
+                                <span className="text-[#00613D]">{chuyenXe.gioXuatPhat} {chuyenXe.ngayXuatPhat}</span>
                             </div>
                             <div className="mt-1 flex items-center justify-between">
                                 <span className="text-gray w-28">Số lượng ghế</span>
-                                <span className="text-black">0 Ghế</span>
+                                <span className="text-black">{selectSeat.length} Ghế</span>
                             </div>
                             <div className="mt-1 flex items-center justify-between">
                                 <span className="text-gray w-28">Số ghế</span>
-                                <span className="text-[#00613D]"></span>
+                                <span className="text-[#00613D]">{selectSeat.join(" ")}</span>
                             </div>
                             <div className="mt-1 flex items-center justify-between">
                                 <span className="text-gray">Tổng tiền lượt đi</span>
-                                <span className="text-[#00613D]">0đ</span>
+                                <span className="text-[#00613D]">{selectSeat.length * chuyenXe.gia}đ</span>
                             </div>
                         </div>
                         <div className="w-full rounded-xl border border-[#DDE2E8] bg-white px-4 py-3 text-[15px]">
@@ -214,7 +206,7 @@ export default function BookTicket() {
                     </div> */}
                             <div className="mt-4 flex items-center justify-between">
                                 <span className="text-gray">Giá vé lượt đi</span>
-                                <span className="text-orange">0đ</span>
+                                <span className="text-orange">{selectSeat.length * chuyenXe.gia}đ</span>
                             </div>
                             <div className="mt-1 flex items-center justify-between">
                                 <span className="text-gray">Phí thanh toán</span>
@@ -223,7 +215,7 @@ export default function BookTicket() {
                             <div className="divide my-3"></div>
                             <div className="flex items-center justify-between">
                                 <span className="text-gray">Tổng tiền</span>
-                                <span className="text-orange">0đ</span>
+                                <span className="text-orange">{selectSeat.length * chuyenXe.gia}đ</span>
                             </div>
                         </div>
                     </div>
