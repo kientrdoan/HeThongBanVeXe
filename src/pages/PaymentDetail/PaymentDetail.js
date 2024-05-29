@@ -1,7 +1,25 @@
 import React from 'react'
+import axios from "axios";
+
 
 export default function paymentDetail() {
 
+    const handlePaymentMethodChange = async (event) => {
+        if (event.target.value === 'VNPAY') {
+            try {
+                const params = new URLSearchParams();
+                params.append('amount', 300000);
+                params.append('orderInfo', 'A5 A6 A7');
+
+                const response = await axios.post('http://localhost:8080/thanhtoan/submitOrder', params);
+                // Chuyển hướng người dùng sang URL được trả về từ server
+                window.location.href = response.data;
+
+            } catch (error) {
+                console.error('There was an error submitting the order:', error);
+            }
+        }
+    };
 
     return (
         <div className="flex flex-wrap justify-center max-w-4xl mx-auto">
@@ -13,7 +31,7 @@ export default function paymentDetail() {
                         {/*Zalopay*/}
                         <label className="ant-radio-wrapper m-0 flex items-center border-b py-3">
                             <span className="ant-radio">
-                                <input type="radio" className="ant-radio-input" value="8"/>
+                                <input type="radio" className="ant-radio-input" name={"paymentMethod"} value={"ZALOPAY"}/>
                                 <span className="ant-radio-inner"></span>
                             </span>
                             <span>
@@ -33,7 +51,7 @@ export default function paymentDetail() {
                         {/*vnpay*/}
                         <label className="ant-radio-wrapper m-0 flex items-center border-b py-3">
                             <span className="ant-radio">
-                                <input type="radio" className="ant-radio-input" value="8"/>
+                                <input type="radio" className="ant-radio-input" name={"paymentMethod"} value={"VNPAY"} onChange={handlePaymentMethodChange}/>
                                 <span className="ant-radio-inner"></span>
                             </span>
                             <span>
@@ -58,9 +76,9 @@ export default function paymentDetail() {
                     <div className="mt-4 flex items-center justify-between"><span
                         className="text-gray">Giá vé lượt đi</span><span
                         className="text-orange">0đ</span></div>
-                    <div className="mt-1 flex items-center justify-between"><span
-                        className="text-gray">Giá vé lượt về</span><span
-                        className="text-orange">0đ</span></div>
+                    {/*<div className="mt-1 flex items-center justify-between"><span*/}
+                    {/*    className="text-gray">Giá vé lượt về</span><span*/}
+                    {/*    className="text-orange">0đ</span></div>*/}
                     <div className="mt-1 flex items-center justify-between"><span
                         className="text-gray">Phí thanh toán</span><span
                         className="text-black">0đ</span></div>
@@ -109,32 +127,33 @@ export default function paymentDetail() {
                 </div>
 
                 {/*thông tin chuyến về nếu có khứ hồi*/}
-                <div className="w-full rounded-xl border border-[#DDE2E8] bg-white px-4 py-3 text-[15px]">
-                    <p className="icon-orange flex gap-4 text-xl font-medium text-black">Thông tin lượt về
-                    </p>
-                    <div className="mt-4 flex justify-between"><span className="text-gray w-20">Tuyến xe</span><span
-                        className="text-right text-black">Mien Dong - Buon Ma Thuot</span></div>
-                    <div className="mt-1 flex items-center justify-between"><span className="text-gray w-30">Thời gian xuất bến</span><span
-                        className="text-[#00613D]">08:00 2024-05-01</span></div>
-                    <div className="mt-1 flex items-center justify-between"><span className="text-gray w-28">Số lượng ghế</span><span
-                        className="text-black">1 Ghế</span></div>
-                    <div className="mt-1 flex items-center justify-between"><span
-                        className="text-gray w-28">Số ghế</span><span className="text-[#00613D]">B05</span></div>
-                    <div className="mt-1 flex items-center justify-between"><span
-                        className="text-gray w-40">Điểm lên xe</span><span
-                        className="text-right text-black">BX Miền Đông</span></div>
-                    <div className="mt-1 flex items-center justify-between"><span className="text-gray w-32">Thời gian tới điểm lên xe</span><span
-                        className="text-right text-red-500">Trước  07:45 01/05/2024</span></div>
-                    <div className="mt-1 flex items-start justify-between"><span
-                        className="text-gray w-40">Đón tận nơi</span><span
-                        className="text-right text-black"></span></div>
-                    <div className="mt-1 flex items-center justify-between"><span className="text-gray">Tổng tiền lượt đi</span><span
-                        className="text-[#00613D]">265.000đ</span></div>
-                </div>
 
             </div>
         </div>
 
     )
-
 }
+
+//compoment khu hoi
+// <div className="w-full rounded-xl border border-[#DDE2E8] bg-white px-4 py-3 text-[15px]">
+//     <p className="icon-orange flex gap-4 text-xl font-medium text-black">Thông tin lượt về
+//     </p>
+//     <div className="mt-4 flex justify-between"><span className="text-gray w-20">Tuyến xe</span><span
+//         className="text-right text-black">Mien Dong - Buon Ma Thuot</span></div>
+//     <div className="mt-1 flex items-center justify-between"><span className="text-gray w-30">Thời gian xuất bến</span><span
+//         className="text-[#00613D]">08:00 2024-05-01</span></div>
+//     <div className="mt-1 flex items-center justify-between"><span className="text-gray w-28">Số lượng ghế</span><span
+//         className="text-black">1 Ghế</span></div>
+//     <div className="mt-1 flex items-center justify-between"><span
+//         className="text-gray w-28">Số ghế</span><span className="text-[#00613D]">B05</span></div>
+//     <div className="mt-1 flex items-center justify-between"><span
+//         className="text-gray w-40">Điểm lên xe</span><span
+//         className="text-right text-black">BX Miền Đông</span></div>
+//     <div className="mt-1 flex items-center justify-between"><span className="text-gray w-32">Thời gian tới điểm lên xe</span><span
+//         className="text-right text-red-500">Trước  07:45 01/05/2024</span></div>
+//     <div className="mt-1 flex items-start justify-between"><span
+//         className="text-gray w-40">Đón tận nơi</span><span
+//         className="text-right text-black"></span></div>
+//     <div className="mt-1 flex items-center justify-between"><span className="text-gray">Tổng tiền lượt đi</span><span
+//         className="text-[#00613D]">265.000đ</span></div>
+// </div>
