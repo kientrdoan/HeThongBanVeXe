@@ -335,7 +335,7 @@ export default function Home() {
                   gia: data.gia,
                 },
               })
-            }} type="button" className="btn btn-success" to="/chon-tuyen">
+            }} type="button" className="btn btn-success" to={`/chon-tuyen/${data.id}`}>
               <span>Chọn chuyến</span>
             </NavLink>
           </div>
