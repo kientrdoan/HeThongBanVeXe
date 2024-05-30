@@ -11,6 +11,8 @@ import Modal from './modal/Modal';
 import Bill from './pages/Bill/Bill';
 import Footer from './components/footer/Footer';
 import BookTicket from './pages/BookTicket/BookTicket';
+import PaymentDetail from './pages/PaymentDetail/PaymentDetail';
+import PaymentStatus from "./pages/PaymentStatus/PaymentStatus";
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
         <Route path="/ve-chung-toi" Component={OursPage}></Route>
         <Route path="/tra-cuu-ve" Component={ConsultPage}></Route>
         <Route path="/hoa-don" Component={Bill}></Route>
-        <Route path="/chon-tuyen" Component={BookTicket}></Route>
+        <Route path="/chon-tuyen/:id" Component={BookTicket}></Route>
+        <Route path="/payment" Component={PaymentDetail}></Route>
+        <Route path="/vnpay-payment" Component={PaymentStatus}></Route>
       </Routes>
       <Footer></Footer>
     </BrowserRouter>
