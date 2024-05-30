@@ -15,7 +15,7 @@ export const getChuyenXeAPI= (maTinhDi, maTinhDen, ngayXuatPhat)=>{
           })
       
           promise.then((result) => {
-            // console.log(result.data.data)
+            console.log(result.data.data)
             if(result.data !== null){
               dispatch({
                 type: GET_CHUYEN_XE,

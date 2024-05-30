@@ -1,12 +1,24 @@
-import React from 'react'
+import React, {useState } from 'react'
 import SelectSeat from "../SelectSeat/SelectSeat"
 import styles from "./BookTicket.module.css"
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getListVeDaDatByIdChuyenXe, postBookTicket } from '../../redux/actions/BookTicketAction';
 
 export default function BookTicket() {
 
+    const { id } = useParams();
+    let dispatch= useDispatch()
+
+
     let {chuyenXe, selectSeat}= useSelector(state=> state.HomeReducer)
+    let {listGheDaDat}= useSelector(state=> state.BookTicketReducer)
+
+    let [inforCustomer, setInforCustomer]= useState({
+        name: "",
+        mobile: "",
+        email: "",
+    })
 
     const handleOnFocus = (idWrapCust) => {
         var wrap = document.getElementById(idWrapCust);
@@ -18,6 +30,62 @@ export default function BookTicket() {
         wrap.classList.remove(`${styles["ant-input-wrapper-focused"]}`);
     }
 
+    const handleInputInforCustomer= (e)=>{
+        let {name, value} = e.target;
+        // console.log(name, value)
+        let newInforCustomer = {...inforCustomer, [name]: value}
+
+        setInforCustomer(newInforCustomer);
+        // console.log(id)
+    }
+
+    const handleBookTicket= async ()=>{
+        const today = new Date();
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        let inforTicket= {
+            ngayDat: today.toLocaleDateString("en-CA", options),
+            trangThaiThanhToan: 0,
+            listSeat: selectSeat,
+            idKhachHang: -1,
+            idChuyenXe: id,
+            idQuanLy: -1,
+            name: inforCustomer.name,
+            phone: inforCustomer.mobile,
+            email: inforCustomer.email,    
+        }
+        await dispatch(postBookTicket(inforTicket))
+        
+         // Thêm một độ trễ nhỏ để đảm bảo cơ sở dữ liệu có đủ thời gian cập nhật
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Đợi 500ms
+
+        listGheDaDat= await getListVeDaDatByIdChuyenXe(id)
+        console.log(listGheDaDat.listMaGheDaDat)
+        dispatch({
+            type: "UPDATE_GHE_DA_DAT",
+            listMaGhe: listGheDaDat.listMaGheDaDat
+        })
+
+        dispatch({
+            type: "CHANGE_SELECT_SEAT",
+            selectSeat: []
+        })
+
+        let inforPayment= {
+            name: inforCustomer.name,
+            phone: inforCustomer.mobile,
+            email: inforCustomer.email,
+            tinhXuatPhat: chuyenXe.tinhXuatPhat,
+            tinhDen: chuyenXe.tinhDen,
+            ngayXuatPhat: chuyenXe.ngayXuatPhat,
+            gioXuatPhat: chuyenXe.gioXuatPhat,
+            gia: 0,
+        }
+
+        dispatch({
+            type: "HANDLE_INFOR_PAYMENT",
+            inforPayment: inforPayment
+        })
+    }
 
     return (
         <div style={{ backgroundColor: "#f3f3f5" }}>
@@ -37,15 +105,14 @@ export default function BookTicket() {
                             <div className="flex flex-1 flex-col">
                                 <p className="text-xl font-medium text-black mb-4">Thông tin khách hàng</p>
 
-
                                 <label for="CustName" className="ant-form-item-required ant-form-item-required-mark-optional" title="">
                                     <div className="flex">Họ và tên
                                         <span className="ml-1 text-base text-[#E12424]">*</span>
                                     </div>
                                 </label>
                                 <span id="WrapCustName" className={`${styles["input-form"]} mb-4`}>
-                                    <input onChange={()=>{}} onFocus={() => { handleOnFocus("WrapCustName") }} onBlur={() => { handleOnBlur("WrapCustName") }}
-                                        className={`${styles["ant-input"]}`} type="text" name="name" id="CustName"/>
+                                    <input onChange={(e)=>{handleInputInforCustomer(e)}} onFocus={() => { handleOnFocus("WrapCustName") }} onBlur={() => { handleOnBlur("WrapCustName") }}
+                                        className={`${styles["ant-input"]}`} type="text" name="name" id="CustName" value={inforCustomer.name}/>
                                 </span>
 
                                 <label for="CustMobile" className="ant-form-item-required ant-form-item-required-mark-optional" title="">
@@ -54,8 +121,8 @@ export default function BookTicket() {
                                     </div>
                                 </label>
                                 <span id="WrapCustMobile" className={`${styles["input-form"]} mb-4`}>
-                                    <input onChange={()=>{}} onFocus={() => { handleOnFocus("WrapCustMobile") }} onBlur={() => { handleOnBlur("WrapCustMobile") }}
-                                        className={`${styles["ant-input"]}`} type="text" name="mobile" id="CustMobile"/>
+                                    <input onChange={(e)=>{handleInputInforCustomer(e)}} onFocus={() => { handleOnFocus("WrapCustMobile") }} onBlur={() => { handleOnBlur("WrapCustMobile") }}
+                                        className={`${styles["ant-input"]}`} type="text" name="mobile" id="CustMobile" value={inforCustomer.mobile}/>
                                 </span>
 
                                 <label for="CustEmail" className="ant-form-item-required ant-form-item-required-mark-optional" title="">
@@ -64,8 +131,8 @@ export default function BookTicket() {
                                     </div>
                                 </label>
                                 <span id="WrapCustEmail" className={`${styles["input-form"]} mb-4`}>
-                                    <input onChange={()=>{}} onFocus={() => { handleOnFocus("WrapCustEmail") }} onBlur={() => { handleOnBlur("WrapCustEmail") }}
-                                        className={`${styles["ant-input"]}`} type="text" name="email" id="CustEmail"/>
+                                    <input onChange={(e)=>{handleInputInforCustomer(e)}} onFocus={() => { handleOnFocus("WrapCustEmail") }} onBlur={() => { handleOnBlur("WrapCustEmail") }}
+                                        className={`${styles["ant-input"]}`} type="text" name="email" id="CustEmail" value={inforCustomer.email}/>
                                 </span>
 
                             </div>
@@ -167,7 +234,7 @@ export default function BookTicket() {
                                 <button type="button" className="bg-gray-200 text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full py-2 px-4 mr-6 w-28 transition ease-in duration-150">
                                     <span>Cancel</span>
                                 </button>
-                                <button type="button" className="bg-blue-500 hover:bg-blue-600 text-white active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 rounded-full px-4 py-2 w-28 transition duration-150 ease-in-out">
+                                <button onClick={()=>{handleBookTicket()}} type="button" className="bg-blue-500 hover:bg-blue-600 text-white active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 rounded-full px-4 py-2 w-28 transition duration-150 ease-in-out">
                                     <span>Payment</span>
                                 </button>
 

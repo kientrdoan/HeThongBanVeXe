@@ -15,24 +15,35 @@ import PaymentDetail from './pages/PaymentDetail/PaymentDetail';
 import PaymentStatus from "./pages/PaymentStatus/PaymentStatus";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Header></Header>
-      <Modal></Modal>
-      <Routes>
-        <Route path="/" Component={Home}></Route>
-        <Route path="/login" Component={AuthPage}></Route>
-        <Route path="/lien-he" Component={ContactPage}></Route>
-        <Route path="/ve-chung-toi" Component={OursPage}></Route>
-        <Route path="/tra-cuu-ve" Component={ConsultPage}></Route>
-        <Route path="/hoa-don" Component={Bill}></Route>
-        <Route path="/chon-tuyen/:id" Component={BookTicket}></Route>
-        <Route path="/payment" Component={PaymentDetail}></Route>
-        <Route path="/vnpay-payment" Component={PaymentStatus}></Route>
-      </Routes>
-      <Footer></Footer>
-    </BrowserRouter>
-  );
+    return ( <
+        BrowserRouter >
+        <
+        Header > < /Header> <
+        Modal > < /Modal> <
+        Routes >
+        <
+        Route path = "/"
+        Component = { Home } > < /Route> <
+        Route path = "/login"
+        Component = { AuthPage } > < /Route> <
+        Route path = "/lien-he"
+        Component = { ContactPage } > < /Route> <
+        Route path = "/ve-chung-toi"
+        Component = { OursPage } > < /Route> <
+        Route path = "/tra-cuu-ve"
+        Component = { ConsultPage } > < /Route> <
+        Route path = "/hoa-don"
+        Component = { Bill } > < /Route> <
+        Route path = "/chon-tuyen/:id"
+        Component = { BookTicket } > < /Route> <
+        Route path = "/payment"
+        Component = { PaymentDetail } > < /Route> <
+        Route path = "/vnpay-payment"
+        Component = { PaymentStatus } > < /Route> <
+        /Routes> <
+        Footer > < /Footer> <
+        /BrowserRouter>
+    );
 }
 
 export default App;

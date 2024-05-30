@@ -8,7 +8,7 @@ export default function SelectSeat() {
     let dispatch = useDispatch()
     let { chuyenXe, selectSeat } = useSelector(state => state.HomeReducer)
 
-
+    // CHUYỀN DATA LÊN REDUX
     const handleSelectSeat = (seat) => {
         // console.log(seat)
         let index = selectSeat.indexOf(seat)
@@ -53,14 +53,14 @@ export default function SelectSeat() {
                 const row = (
                     <tr key={numberSeat} className="flex items-center gap-1 justify-between">
                         <td onClick={() => { handleSelectSeat(getSeatLabel(label, number)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number)) ? seat_selecting : seat_active} alt="seat icon" />
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number)) ? seat_selecting : seat_active} alt="seat icon"/>
                             <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat)}</span>
                         </td>
-                        <td className="relative w-6" />
-                        <td className="relative w-6" />
-                        <td className="relative w-6" />
-                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 1)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat+1))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 1)) ? seat_selecting : seat_active} alt="seat icon" />
+                        <td className="relative w-6"/>
+                        <td className="relative w-6"/>
+                        <td className="relative w-6"/>
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 1)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) || (selectSeat.includes(getSeatLabel(label, numberSeat+1))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 1)) ? seat_selecting : seat_active} alt="seat icon"/>
                             <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat + 1)}</span>
                         </td>
                     </tr>
@@ -71,17 +71,17 @@ export default function SelectSeat() {
                 const row = (
                     <tr key={numberSeat} className="flex items-center gap-1 justify-between">
                         <td onClick={() => { handleSelectSeat(getSeatLabel(label, number)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number)) ? seat_selecting : seat_active} alt="seat icon" />
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number)) ? seat_selecting : seat_active} alt="seat icon"/>
                             <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat)}</span>
                         </td>
-                        <td className="relative w-6" />
-                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 1)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat+1))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 1)) ? seat_selecting : seat_active} alt="seat icon" />
+                        <td className="relative w-6"/>
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 1)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) || (selectSeat.includes(getSeatLabel(label, numberSeat+1))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+1)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 1)) ? seat_selecting : seat_active} alt="seat icon"/>
                             <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat + 1)}</span>
                         </td>
-                        <td className="relative w-6" />
-                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 2)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat)) || (selectSeat.includes(getSeatLabel(label, numberSeat+2))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+2)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 2)) ? seat_selecting : seat_active} alt="seat icon" />
+                        <td className="relative w-6"/>
+                        <td onClick={() => { handleSelectSeat(getSeatLabel(label, number + 2)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+2)) || (selectSeat.includes(getSeatLabel(label, numberSeat+2))=== false&&selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                            <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, numberSeat+2)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, number + 2)) ? seat_selecting : seat_active} alt="seat icon"/>
                             <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, numberSeat + 2)}</span>
                         </td>
                     </tr>

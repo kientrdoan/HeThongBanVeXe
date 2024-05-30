@@ -10,11 +10,13 @@ export const getProvinceListAPI= ()=>{
       
           promise.then((result) => {
             // console.log(result.data)
-            dispatch({
+            if(result.data !== null){
+              dispatch({
                 
-              type: GET_PROVINCE_API,
-              provinceList: result.data.data,
-            })
+                type: GET_PROVINCE_API,
+                provinceList: result.data.data,
+              })
+            }
           })
       
           promise.catch((err) => {
