@@ -1,9 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 
 function PaymentStatus() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
+
+    useEffect(() => {
+        // Lấy URL hiện tại
+        const currentUrl = window.location.href;
+
+        // Thay đổi hostname và port cho URL mới
+        const newUrl = currentUrl.replace('localhost:3000', 'localhost:8080/thanhtoan');
+
+        // Thực hiện yêu cầu GET đến server mới ngay khi component được mount
+        fetch(newUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data received from server:', data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
 
     const vnpAmount = queryParams.get('vnp_Amount');
     const vnpBankCode = queryParams.get('vnp_BankCode');
@@ -51,7 +70,11 @@ function PaymentStatus() {
 
 // Sử dụng hàm
     const amount = formatToVND('10000000'); // "100.000 ₫"
-    console.log(amount);
+
+    const logParams = () => {
+        console.log(queryParams);
+
+    };
 
 
 
@@ -94,6 +117,7 @@ function PaymentStatus() {
                         Trở về trang chủ
                     </a>
                 </div>
+                
             </div>
 
         </div>
