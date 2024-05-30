@@ -2,7 +2,7 @@ import React, {useState } from 'react'
 import SelectSeat from "../SelectSeat/SelectSeat"
 import styles from "./BookTicket.module.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { getListVeDaDatByIdChuyenXe, postBookTicket } from '../../redux/actions/BookTicketAction';
 
 export default function BookTicket() {
@@ -10,9 +10,17 @@ export default function BookTicket() {
     const { id } = useParams();
     let dispatch= useDispatch()
 
+    // useEffect(()=>{
+    //     listGheDaDat= getListVeDaDatByIdChuyenXe(id)
+    //     console.log(listGheDaDat.listMaGheDaDat)
+    //     // dispatch({
+    //     //     type: "UPDATE_GHE_DA_DAT",
+    //     //     listMaGhe: listGheDaDat.listMaGheDaDat
+    //     // })
+    // })
 
     let {chuyenXe, selectSeat}= useSelector(state=> state.HomeReducer)
-    let {listGheDaDat}= useSelector(state=> state.BookTicketReducer)
+    // let {listGheDaDat}= useSelector(state=> state.BookTicketReducer)
 
     let [inforCustomer, setInforCustomer]= useState({
         name: "",
@@ -58,17 +66,17 @@ export default function BookTicket() {
          // Thêm một độ trễ nhỏ để đảm bảo cơ sở dữ liệu có đủ thời gian cập nhật
         await new Promise(resolve => setTimeout(resolve, 1000)); // Đợi 500ms
 
-        listGheDaDat= await getListVeDaDatByIdChuyenXe(id)
+        let listGheDaDat= await getListVeDaDatByIdChuyenXe(id)
         console.log(listGheDaDat.listMaGheDaDat)
         dispatch({
             type: "UPDATE_GHE_DA_DAT",
             listMaGhe: listGheDaDat.listMaGheDaDat
         })
 
-        dispatch({
-            type: "CHANGE_SELECT_SEAT",
-            selectSeat: []
-        })
+        // dispatch({
+        //     type: "CHANGE_SELECT_SEAT",
+        //     selectSeat: []
+        // })
 
         let inforPayment= {
             name: inforCustomer.name,
@@ -78,7 +86,7 @@ export default function BookTicket() {
             tinhDen: chuyenXe.tinhDen,
             ngayXuatPhat: chuyenXe.ngayXuatPhat,
             gioXuatPhat: chuyenXe.gioXuatPhat,
-            gia: 0,
+            gia: chuyenXe.gia,
         }
 
         dispatch({
@@ -234,9 +242,9 @@ export default function BookTicket() {
                                 <button type="button" className="bg-gray-200 text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full py-2 px-4 mr-6 w-28 transition ease-in duration-150">
                                     <span>Cancel</span>
                                 </button>
-                                <button onClick={()=>{handleBookTicket()}} type="button" className="bg-blue-500 hover:bg-blue-600 text-white active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 rounded-full px-4 py-2 w-28 transition duration-150 ease-in-out">
+                                <NavLink onClick={()=>{handleBookTicket()}} to="/payment" type="button" className="bg-blue-500 hover:bg-blue-600 text-white active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 rounded-full px-4 py-2 w-28 transition duration-150 ease-in-out">
                                     <span>Payment</span>
-                                </button>
+                                </NavLink>
 
                             </div>
                         </div>
