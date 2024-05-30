@@ -259,6 +259,7 @@ export default function Home() {
     return formattedTime;
   }
 
+  // RenderAll Chuyen Xe
   // ${styles["card-box-shadown"]} 
   const renderChuyenXe = () => {
     // console.log(chuyenXe)
@@ -335,7 +336,7 @@ export default function Home() {
                   gia: data.gia,
                 },
               })
-            }} type="button" className="btn btn-success" to="/chon-tuyen">
+            }} type="button" className="btn btn-success" to={`/chon-tuyen/${data.id}`}>
               <span>Chọn chuyến</span>
             </NavLink>
           </div>

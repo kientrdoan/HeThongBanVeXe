@@ -18,7 +18,7 @@ export const HomeReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case GET_CHUYEN_XE:
-      console.log("chuyênxe:", action.listChuyenXe)
+      // console.log("chuyênxe:", action.listChuyenXe)
       state.listChuyenXe = action.listChuyenXe
       state.listChuyenXeStorage = action.listChuyenXeStorage
       return { ...state }
@@ -27,6 +27,10 @@ export const HomeReducer = (state = initialState, action) => {
       // console.log(action.chuyenXe)
       state.chuyenXe = action.chuyenXe;
       return { ...state }
+    case "UPDATE_GHE_DA_DAT":
+      console.log("homereducer: ", action.listMaGhe)
+      state.chuyenXe.listMaGhe = action.listMaGhe
+      return {...state}
     case "CHANGE_SELECT_SEAT":
       state.selectSeat= action.selectSeat;
       return {...state}

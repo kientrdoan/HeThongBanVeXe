@@ -24,7 +24,7 @@ function App() {
         <Route path="/ve-chung-toi" Component={OursPage}></Route>
         <Route path="/tra-cuu-ve" Component={ConsultPage}></Route>
         <Route path="/hoa-don" Component={Bill}></Route>
-        <Route path="/chon-tuyen" Component={BookTicket}></Route>
+        <Route path="/chon-tuyen/:id" Component={BookTicket}></Route>
       </Routes>
       <Footer></Footer>
     </BrowserRouter>
