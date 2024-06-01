@@ -3,49 +3,102 @@ import iconCoach from "../../asserts/icon_coach.png";
 import iconWorld from "../../asserts/icon_world.png";
 import Axios from "axios";
 import { NavLink } from "react-router-dom";
+import { Button, notification, Space } from 'antd';
+import { useNavigate } from "react-router-dom";
 
 function AuthPage() {
+	const navigate = useNavigate();
+	const [api, contextHolder] = notification.useNotification();
+	const openNotificationWithIcon = (type, message) => {
+		api[type]({
+			message: 'Thông báo',
+			description: message,
+		});
+	};
+
 	function toggle() {
 		const container = document.getElementById("container");
 		container.classList.toggle(styles["active"]);
 	}
 
 	function handleSignInForm(e) {
-		e.preventDefault();
 		const username = e.target.username.value;
 		const password = e.target.password.value;
+		e.preventDefault();
 		// XỬ LÝ API ĐĂNG NHẬP.
-		let promise =  Axios({
-            url: "http://localhost:8080/auth/login",
-            method: "GET",
-            data: {
-              username: username,
-			  password: password,
-            }
-          })
-		promise.then((result)=>{
-			localStorage.setItem(username, result.data.data);
-			console.log(result.data.data);
+		let promise = Axios({
+			url: "http://localhost:8080/auth/login",
+			method: "POST",
+			data: {
+				username: username,
+				password: password,
+			}
 		})
-		promise.catch((e)=>{
+		promise.then((result) => {
+			localStorage.setItem(username, result.data.data);
+			console.log(result.data);
+			if (result.data.status == 200) {
+				openNotificationWithIcon('success', 'Đăng nhập thành công')	
+				navigate("/");			
+			}
+			// else e.preventDefault();
+
+			if (result.data.status == 404) {
+				openNotificationWithIcon('error', 'Không tìm thấy tài khoản')
+			}
+			if (result.data.status == 401) {
+				openNotificationWithIcon('error', 'Sai mật khẩu')
+			}
+
+		})
+		promise.catch((e) => {
+			e.preventDefault();
+			openNotificationWithIcon('error', 'Đăng nhập không thành công')
 			console.log(e);
 		})
 	}
 
 	function handleSignUpForm(e) {
 		// const username = e.target.username.value;
+		e.preventDefault();
 		const password = e.target.password.value;
 		const password2 = e.target.password2.value;
-
+		const username = e.target.username.value;
 		if (password !== password2) {
-			// THÔNG BÁO LỖI.
+			openNotificationWithIcon('error', 'Mật khẩu nhập lại không trùng')
 			return;
 		}
 		// XỬ LÝ API ĐĂNG KÝ.
+		let promise = Axios({
+			url: "http://localhost:8080/auth/register",
+			method: "POST",
+			data: {
+				username: username,
+				password: password,
+			}
+		})
+		promise.then((result) => {
+			// localStorage.setItem(username, result.data.data);
+			console.log(result.data.data);
+			if (result.data.status == 200) {
+				openNotificationWithIcon('success', 'Đăng ký thành công')
+			}
+			if (result.data.status == 400) {
+				openNotificationWithIcon('error', 'Đã tồn tại tài khoản')
+			}
+
+
+		})
+		promise.catch((e) => {
+			openNotificationWithIcon('success', 'Đăng ký thất bại')
+			console.log(e);
+		})
+
 	}
 
 	return (
 		<div className={styles["parent"]}>
+			{contextHolder}
 			<div className={styles["container"]} id="container">
 				<div
 					className={`${styles["form-container"]} ${styles["sign-up"]}`}
