@@ -34,7 +34,7 @@
 	outline: 3px solid rgba(239, 82, 34, 0.2);
 }
 
-.parent form button {
+.button-submit {
 	width: 25%;
 	padding: 10px;
 	border: none;

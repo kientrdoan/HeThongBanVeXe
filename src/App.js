@@ -8,11 +8,11 @@ import ContactPage from './pages/Contact/Contact';
 import OursPage from './pages/Ours/Ours';
 import ConsultPage from './pages/Consult/Consult';
 import Modal from './modal/Modal';
-import Bill from './pages/Bill/Bill';
 import Footer from './components/footer/Footer';
 import BookTicket from './pages/BookTicket/BookTicket';
 import PaymentDetail from './pages/PaymentDetail/PaymentDetail';
 import PaymentStatus from "./pages/PaymentStatus/PaymentStatus";
+import DashBoard from './pages/DashBoard/DashBoard';
 
 function App() {
     return ( 
@@ -25,13 +25,14 @@ function App() {
             <Route path = "/lien-he" Component = { ContactPage } > </Route> 
             <Route path = "/ve-chung-toi" Component = { OursPage } > </Route> 
             <Route path = "/tra-cuu-ve" Component = { ConsultPage } > </Route> 
-            <Route path = "/hoa-don" Component = { Bill } > </Route> 
             <Route path = "/chon-tuyen/:id" Component = { BookTicket } > </Route>
             <Route path = "/payment" Component = { PaymentDetail } > </Route>
-            <Route path = "/vnpay-payment" Component = { PaymentStatus } > </Route> 
+            <Route path = "/vnpay-payment" Component = { PaymentStatus } > </Route>
+
+            <Route path = "/dashboard" Component = { DashBoard } > </Route> 
         </Routes> 
         <Footer > </Footer> 
-        </BrowserRouter>
+    </BrowserRouter>
     );
 }
 
