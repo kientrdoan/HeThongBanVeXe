@@ -16,6 +16,34 @@ import { getChuyenXeAPI } from '../../redux/actions/HomeAction'
 
 export default function Home() {
 
+  var today = new Date();
+
+  let [stateRoundTrip, setStateRoundTrip] = useState(false)
+
+  const [typeTicket, setTypeTicket] = useState(1);
+
+  let [openDatePicker] = useState({
+    show: false,
+  })
+
+  let [numberTicket, setNumberTicket] = useState(1)
+
+  let [filter, setFilter] = useState([])
+
+  let { origin, destination } = useSelector(state => state.ModalReducer);
+
+  let dispatch = useDispatch()
+
+  let { listChuyenXe, listChuyenXeStorage } = useSelector(state => state.HomeReducer)
+
+  // Xử lý liên quan đến ngày đi
+  const [value, setValue] = useState({
+    startDate: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate(),
+    endDate: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+  });
+
+  // let [stateBtnSearch, setStateBtnSearch] = useState(false)
+
   // Hàm chuyển đổi chuỗi thời gian "HH:MM" thành số phút
   const timeStringToMinutes = (timeStr) => {
     const [hours, minutes] = timeStr.split(":").map(Number);
@@ -44,30 +72,7 @@ export default function Home() {
       return timeRanges.some((range) => isTimeInRange(chuyenXe.gioXuatPhat, range));
     });
   };
-
-  var today = new Date();
-
-
-  let [stateRoundTrip, setStateRoundTrip] = useState(false)
-
-  // let [stateBtnSearch, setStateBtnSearch] = useState(false)
-
-  const [typeTicket, setTypeTicket] = useState(1);
-
-  let [openDatePicker] = useState({
-    show: false,
-  })
-
-  let [numberTicket, setNumberTicket] = useState(1)
-
-  let [filter, setFilter] = useState([])
-
-  let { origin, destination } = useSelector(state => state.ModalReducer);
-
-  let dispatch = useDispatch()
-
-  let { listChuyenXe, listChuyenXeStorage } = useSelector(state => state.HomeReducer)
-
+  
   let handleSelectFilter = (selected) => {
     const index = filter.indexOf(selected)
     // console.log(index)
@@ -102,12 +107,8 @@ export default function Home() {
     setTypeTicket(value); // Cập nhật giá trị được chọn
   };
 
-  // Xử lý liên quan đến ngày đi
-  const [value, setValue] = useState({
-    startDate: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate(),
-    endDate: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
-  });
-
+  
+  // Handle Xu ly chon ngay
   const handleValueChange = (newValue) => {
     // console.log("newValue:", newValue);
     if (newValue.startDate !== null && newValue.endDate !== null) {
@@ -132,9 +133,7 @@ export default function Home() {
         minDate={today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()}
         maxDate={today.getFullYear() + "-" + (today.getMonth() + 2) + "-" + today.getDate()}
         startFrom={today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()}
-        // placeholder={today.getFullYear() + "-" + (today.getMonth() + 1) + "-" +  today.getDate()}
         onChange={handleValueChange} />
-
     }
   }
 
@@ -188,6 +187,7 @@ export default function Home() {
     }
   }
 
+  // Handle
   const handleStateRoundTrip = () => {
     if (typeTicket === 1) {
       setStateRoundTrip(false)
@@ -197,7 +197,7 @@ export default function Home() {
     // setStateBtnSearch(true)
   }
 
-  // Goi Reducer
+  // Goi API
   const getChuyenXe = (tinhXuatPhat, tinhDen, ngayXuatPhat) => {
     // console.log(origin.id, destination.id)
     // console.log(formatDate(value.startDate))
@@ -260,7 +260,6 @@ export default function Home() {
   }
 
   // RenderAll Chuyen Xe
-  // ${styles["card-box-shadown"]} 
   const renderChuyenXe = () => {
     // console.log(chuyenXe)
     return listChuyenXe.map((data, index) => {
@@ -381,6 +380,7 @@ export default function Home() {
     })
   }
 
+  // CSS Optin Loai Ve
   const handleTripOption = (e) => {
     const tripOptions = document.querySelectorAll('.trip-option');
     tripOptions.forEach(option => {
@@ -389,6 +389,7 @@ export default function Home() {
     e.target.classList.add('border-b-4', 'border-[#00613D]', 'border-b')
   }
 
+  // Render Thanh Chon Chuyen Di - Chuyen Ve
   const renderSelectRoundTrip = () => {
     if (stateRoundTrip === false) {
       return;
@@ -558,7 +559,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Loai Ghe- Hang Ghe- Tang Ghe */}
+      {/* Loc Theo Gio Xuat Phat - LEFT & Render Chuye Xe Ben Phai */}
       {/* className={`w-full pt-12 ${Object.keys(chuyenXe).length === 0 ? "hidden" : ""}`} */}
       <section style={{ background: "#fbfafa" }} className={`w-full pt-12`}>
         <div className='w-[1128px] m-auto flex gap-6'>
@@ -615,6 +616,11 @@ export default function Home() {
 
             {/* Render Chuyen Xe */}
             {Object.keys(listChuyenXe).length !== 0 ? renderChuyenXe() : ""}
+
+            <div className={`pb-[24px] ${listChuyenXe.length===0?"block":"hidden"}`}>
+              <div className="text-xl font-medium block">KHÔNG TÌM THẤY CHUYẾN XE</div>
+            </div>
+
           </div>
 
         </div>

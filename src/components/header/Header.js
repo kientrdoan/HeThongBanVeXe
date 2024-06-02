@@ -50,10 +50,10 @@ export default function Header() {
 
             <div className={`${styles["nav-link-group"]} content`}>
                 <NavLink className={linkClass} to="/">TRANG CHỦ</NavLink>
-                <NavLink className={linkClass} to="/lich-trinh">LỊCH TRÌNH</NavLink>
+                {/* <NavLink className={linkClass} to="/lich-trinh">LỊCH TRÌNH</NavLink> */}
                 <NavLink className={linkClass} to="/tra-cuu-ve">TRA CỨU VÉ</NavLink>
                 {/* <NavLink className={linkClass} to="/tin-tuc">TIN TỨC</NavLink> */}
-                <NavLink className={linkClass} to="/hoa-don">HOÁ ĐƠN</NavLink>
+                {/* <NavLink className={linkClass} to="/hoa-don">HOÁ ĐƠN</NavLink> */}
                 <NavLink className={linkClass} to="/lien-he">LIÊN HỆ</NavLink>
                 <NavLink className={linkClass} to="/ve-chung-toi">VỀ CHÚNG TÔI</NavLink>
             </div>
