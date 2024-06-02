@@ -6,3 +6,4 @@ npm i react-router-dom </br>
 npm i axios <br/>
 npm i tailwindcss <br/>
 npm i redux-saga
+npm i antd
