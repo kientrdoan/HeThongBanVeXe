@@ -20,6 +20,8 @@ export default function Home() {
 
   let [stateRoundTrip, setStateRoundTrip] = useState(false)
 
+  let [search, setSearch]= useState(false)
+
   const [typeTicket, setTypeTicket] = useState(1);
 
   let [openDatePicker] = useState({
@@ -461,7 +463,7 @@ export default function Home() {
                       title: "Điểm đi",
                       positionLeft: "220px",
                       Component: <ModalAdress></ModalAdress>
-                    })
+                    }); setSearch(false)
                   }} data-bs-toggle="modal" data-bs-target="#ModalLocaltion" type='button' className={`${styles["input-search"]} btn item-start mt-1 flex w-full cursor-pointer font-medium items-center`}>
                     {/* Diem di */}
                     <span id={origin.id} className="max-w-[140px] truncate max-w-[220px]">{origin.tenTinh}
@@ -482,7 +484,8 @@ export default function Home() {
                       title: "Điểm đến",
                       positionLeft: "496px",
                       Component: <ModalAdress></ModalAdress>
-                    })
+                    });
+                    setSearch(false)
                   }} data-bs-toggle="modal" data-bs-target="#ModalLocaltion" className={`${styles["input-search"]} item-start mt-1 flex w-full cursor-pointer font-medium items-center justify-start`}>
                     {/* Diem Den */}
                     <span id={destination.id} className="max-w-[140px] truncate max-w-[220px]">{destination.tenTinh}
@@ -553,7 +556,7 @@ export default function Home() {
 
             {/* Button tìm kiếm */}
             <div className="relative flex w-full justify-center">
-              <button onClick={() => { handleStateRoundTrip(); getChuyenXe(origin.id, destination.id, formatDate(value.startDate)) }} className="absolute z-10 h-12 rounded-full bg-orange-500 px-20 text-base text-white">Tìm chuyến xe</button>
+              <button onClick={() => {setSearch(true); handleStateRoundTrip(); getChuyenXe(origin.id, destination.id, formatDate(value.startDate)) }} className="absolute z-10 h-12 rounded-full bg-orange-500 px-20 text-base text-white">Tìm chuyến xe</button>
             </div>
           </div>
         </div>
@@ -608,7 +611,8 @@ export default function Home() {
           <div className='flex-1'>
             {/* Header Origin - Destination */}
             <div className='pb-[24px]'>
-              <div className="text-xl font-medium block">{origin.tenTinh}  - {destination.tenTinh}  ({listChuyenXe.length})</div>
+              <div className={`text-xl font-medium block ${listChuyenXe.length ===0?'block':'hidden'}`}>{origin.tenTinh}  - {destination.tenTinh} </div>
+              <div className={`text-xl font-medium block ${listChuyenXe.length===0?'hidden':'block'}`}>{origin.tenTinh}  - {destination.tenTinh}  ({listChuyenXe.length})</div>
             </div>
 
             {/* Thanh Chọn Chuyến Đi- Chuyến Về */}
@@ -617,7 +621,7 @@ export default function Home() {
             {/* Render Chuyen Xe */}
             {Object.keys(listChuyenXe).length !== 0 ? renderChuyenXe() : ""}
 
-            <div className={`pb-[24px] ${listChuyenXe.length===0?"block":"hidden"}`}>
+            <div className={`pb-[24px] ${listChuyenXe.length===0&& search=== true?"block":"hidden"}`}>
               <div className="text-xl font-medium block">KHÔNG TÌM THẤY CHUYẾN XE</div>
             </div>
 

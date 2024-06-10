@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import seat_active from "../../asserts/seat_active.svg";
 import seat_selecting from "../../asserts/seat_selecting.svg";
 import seat_disabled from "../../asserts/seat_disabled.svg"

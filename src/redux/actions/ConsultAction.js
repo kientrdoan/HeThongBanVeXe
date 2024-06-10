@@ -14,6 +14,6 @@ export const getInforTicket = async (phone, maGhe, ngayDat) => {
         return result.data.data;
     } catch (err) {
         console.error(err);
-        throw err; // Rethrow the error for the calling function to handle
+        throw err; 
     }
 };

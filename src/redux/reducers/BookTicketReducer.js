@@ -3,6 +3,7 @@ const initialState = {
         name: "",
         phone: "",
         email: "",
+        listSeat: [],
         tinhXuatPhat: "",
         tinhDen: "",
         ngayXuatPhat: "",

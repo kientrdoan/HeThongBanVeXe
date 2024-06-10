@@ -1,14 +1,36 @@
-import React, {useState } from 'react'
+import React, {useEffect, useRef, useState } from 'react'
 import SelectSeat from "../SelectSeat/SelectSeat"
 import styles from "./BookTicket.module.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getListVeDaDatByIdChuyenXe, postBookTicket } from '../../redux/actions/BookTicketAction';
+import { ToastContainer, toast } from 'react-toastify';
+import Notification from '../../components/notification/notification';
 
 export default function BookTicket() {
 
     const { id } = useParams();
     let dispatch= useDispatch()
+    const location = useLocation();
+    let {chuyenXe, selectSeat}= useSelector(state=> state.HomeReducer)
+    const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+
+    const updateGheDangChon = () => {
+        dispatch({
+            type: 'CHANGE_SELECT_SEAT',
+            selectSeat: []
+        });
+    };
+
+    useEffect(() => {
+        const currentPath = location.pathname;
+        if(currentPath.includes('/chon-tuyen')){
+            updateGheDangChon()
+        }
+        
+        // console.log(currentPath)
+    }, [location]);
+
 
     // useEffect(()=>{
     //     listGheDaDat= getListVeDaDatByIdChuyenXe(id)
@@ -19,7 +41,7 @@ export default function BookTicket() {
     //     // })
     // })
 
-    let {chuyenXe, selectSeat}= useSelector(state=> state.HomeReducer)
+   
     // let {listGheDaDat}= useSelector(state=> state.BookTicketReducer)
 
     let [inforCustomer, setInforCustomer]= useState({
@@ -47,7 +69,15 @@ export default function BookTicket() {
         // console.log(id)
     }
 
-    const handleBookTicket= async ()=>{
+    const handleBookTicket= async (e)=>{
+
+        if(inforCustomer.name === '' || inforCustomer.email ==='' || inforCustomer.mobile==='' || selectSeat.length ===0){
+            // alert("Vui long nhap thong tin khach hang")
+            setNotification({ show: true, message: 'Vui lòng chọn ghế và nhập đầy đủ thông tin khách hàng', type: 'error' });
+            e.preventDefault()
+            return;
+        }
+
         const today = new Date();
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         let inforTicket= {
@@ -68,6 +98,7 @@ export default function BookTicket() {
 
         let listGheDaDat= await getListVeDaDatByIdChuyenXe(id)
         console.log(listGheDaDat.listMaGheDaDat)
+        
         dispatch({
             type: "UPDATE_GHE_DA_DAT",
             listMaGhe: listGheDaDat.listMaGheDaDat
@@ -82,6 +113,7 @@ export default function BookTicket() {
             name: inforCustomer.name,
             phone: inforCustomer.mobile,
             email: inforCustomer.email,
+            listSeat: selectSeat,
             tinhXuatPhat: chuyenXe.tinhXuatPhat,
             tinhDen: chuyenXe.tinhDen,
             ngayXuatPhat: chuyenXe.ngayXuatPhat,
@@ -93,10 +125,34 @@ export default function BookTicket() {
             type: "HANDLE_INFOR_PAYMENT",
             inforPayment: inforPayment
         })
+
+        updateGheDangChon()
     }
+
+    const handleCloseNotification = () => {
+        setNotification({ show: false, message: '', type: '' });
+    };
+
+    useEffect(() => {
+        let timer;
+        if (notification.show) {
+            timer = setTimeout(() => {
+                handleCloseNotification();
+            }, 3000);
+        }
+
+        return () => clearTimeout(timer);
+    }, [notification]);
 
     return (
         <div style={{ backgroundColor: "#f3f3f5" }}>
+            {notification.show && (
+                <Notification
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={handleCloseNotification}
+                />
+            )}
             <div className='pb-2 ml-[200px] mr-[200px] pt-2'>
                 <div className='flex gap-4'>
                     {/* Left*/}
@@ -239,10 +295,10 @@ export default function BookTicket() {
                                 <span className="mt-2 text-2xl font-medium text-black">{selectSeat.length * chuyenXe.gia}đ</span>
                             </div>
                             <div className="flex flex-auto items-center justify-end">
-                                <button type="button" className="bg-gray-200 text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full py-2 px-4 mr-6 w-28 transition ease-in duration-150">
+                                <NavLink to="/" type="button" className="bg-gray-200 text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full py-2 px-4 mr-6 w-28 transition ease-in duration-150">
                                     <span>Cancel</span>
-                                </button>
-                                <NavLink onClick={()=>{handleBookTicket()}} to="/payment" type="button" className="bg-blue-500 hover:bg-blue-600 text-white active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 rounded-full px-4 py-2 w-28 transition duration-150 ease-in-out">
+                                </NavLink>
+                                <NavLink onClick={(e)=>{handleBookTicket(e); }} to="/payment" type="button" className="bg-blue-500 hover:bg-blue-600 text-white active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 rounded-full px-4 py-2 w-28 transition duration-150 ease-in-out">
                                     <span>Payment</span>
                                 </NavLink>
 
@@ -296,6 +352,7 @@ export default function BookTicket() {
                     </div>
                 </div>
             </div>
+            <ToastContainer></ToastContainer>
         </div>
     )
 }

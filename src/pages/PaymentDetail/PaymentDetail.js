@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 export default function PaymentDetail() {
 
     let {inforPayment, listIdVe}= useSelector(state=> state.BookTicketReducer)
-    let {selectSeat}= useSelector(state=> state.HomeReducer)
+    // let {selectSeat}= useSelector(state=> state.HomeReducer)
 
     const handlePaymentMethodChange = async (event) => {
         if (event.target.value === 'VNPAY') {
             try {
                 const params = new URLSearchParams();
-                params.append('amount', `${inforPayment.gia * selectSeat.length}`);
+                params.append('amount', `${inforPayment.gia * inforPayment.selectSeat.length}`);
                 params.append('orderInfo', `${listIdVe.join(" ")}`);
 
                 const response = await axios.post('http://localhost:8080/thanhtoan/submitOrder', params);
@@ -82,7 +82,7 @@ export default function PaymentDetail() {
                     <div className="icon-orange flex gap-2 text-xl font-medium text-black">Chi tiết giá</div>
                     <div className="mt-4 flex items-center justify-between"><span
                         className="text-gray">Giá vé lượt đi</span><span
-                            className="text-orange">{inforPayment.gia * selectSeat.length}đ</span></div>
+                            className="text-orange">{inforPayment.gia * inforPayment.listSeat.length}đ</span></div>
                     {/*<div className="mt-1 flex items-center justify-between"><span*/}
                     {/*    className="text-gray">Giá vé lượt về</span><span*/}
                     {/*    className="text-orange">0đ</span></div>*/}
@@ -91,7 +91,7 @@ export default function PaymentDetail() {
                             className="text-black">0đ</span></div>
                     <div className="divide my-3"></div>
                     <div className="flex items-center justify-between"><span className="text-gray">Tổng tiền</span><span
-                        className="text-orange">{inforPayment.gia * selectSeat.length}đ</span></div>
+                        className="text-orange">{inforPayment.gia * inforPayment.listSeat.length}đ</span></div>
                 </div>
             </div>
             <div className="w-1/2 p-4">
@@ -118,11 +118,11 @@ export default function PaymentDetail() {
                     <div className="mt-1 flex items-center justify-between"><span className="text-gray w-30">Thời gian xuất bến</span><span
                         className="text-[#00613D]">{inforPayment.gioXuatPhat} {inforPayment.ngayXuatPhat}</span></div>
                     <div className="mt-1 flex items-center justify-between"><span className="text-gray w-28">Số lượng ghế</span><span
-                        className="text-black">{selectSeat.length} Ghế</span></div>
+                        className="text-black">{inforPayment.listSeat.length} Ghế</span></div>
                     <div className="mt-1 flex items-center justify-between"><span
-                        className="text-gray w-28">Số ghế</span><span className="text-[#00613D]">{selectSeat.join(" ")}</span></div>
+                        className="text-gray w-28">Số ghế</span><span className="text-[#00613D]">{inforPayment.listSeat.join(" ")}</span></div>
                     <div className="mt-1 flex items-center justify-between"><span className="text-gray">Tổng tiền lượt đi</span><span
-                        className="text-[#00613D]">{inforPayment.gia * selectSeat.length}</span></div>
+                        className="text-[#00613D]">{inforPayment.gia * inforPayment.listSeat.length}</span></div>
                 </div>
 
                 {/*thông tin chuyến về nếu có khứ hồi*/}
