@@ -13,6 +13,7 @@ import BookTicket from './pages/BookTicket/BookTicket';
 import PaymentDetail from './pages/PaymentDetail/PaymentDetail';
 import PaymentStatus from "./pages/PaymentStatus/PaymentStatus";
 import DashBoard from './pages/DashBoard/DashBoard';
+import EditInfor from './pages/EditInfor/EditInfor';
 
 function App() {
     return ( 
@@ -22,6 +23,7 @@ function App() {
         <Routes>
             <Route path = "/" Component = { Home } > </Route> 
             <Route path = "/login" Component = { AuthPage } > </Route> 
+            <Route path = "/edit" Component = { EditInfor } > </Route>
             <Route path = "/lien-he" Component = { ContactPage } > </Route> 
             <Route path = "/ve-chung-toi" Component = { OursPage } > </Route> 
             <Route path = "/tra-cuu-ve" Component = { ConsultPage } > </Route> 

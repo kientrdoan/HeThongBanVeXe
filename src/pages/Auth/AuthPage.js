@@ -6,8 +6,10 @@ import { NavLink } from "react-router-dom";
 import { Button, notification, Space } from 'antd';
 import { useNavigate } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import { useDispatch } from "react-redux";
 
 function AuthPage() {
+	let dispatch= useDispatch()
 	const navigate = useNavigate();
 	const [api, contextHolder] = notification.useNotification();
 	const openNotificationWithIcon = (type, message) => {
@@ -37,13 +39,20 @@ function AuthPage() {
 		})
 		promise.then((result) => {
 			localStorage.setItem(username, result.data.data);
-			console.log(result.data);
+			console.log("signin form", result.data);
 			if (result.data.status === 200) {
 				openNotificationWithIcon('success', 'Đăng nhập thành công')
 				const token = result.data.data
 				const data = jwtDecode(token);
 				// {customerId: 3, iat: 1718101356, exp: 1718187756}
-				console.log(data)
+				console.log("Data", data)
+				dispatch({
+					type: "INFOR_AUTH",
+					inforAuth: {
+						username: username,
+						data: data
+					}
+				})
 				navigate("/");			
 			}
 			// else e.preventDefault();

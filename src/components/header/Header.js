@@ -2,8 +2,12 @@ import styles from "./header.module.css"
 import { NavLink } from 'react-router-dom'
 import person from '../../asserts/person.svg';
 import logo from "../../asserts/logo_new.svg"
+import { useSelector } from "react-redux";
 
-export default function Header() {
+export default function Header(props) {
+
+    let {inforAuth}= useSelector(state=> state.AuthReducer)
+    console.log("here", inforAuth)
 
     const linkClass = ({ isActive }) => {
         return `${styles["nav-link"]} ${isActive ? styles["active"] : ""}`
@@ -12,21 +16,7 @@ export default function Header() {
     return (
         <div className={`${styles["header-home-page"]} relative mx-auto w-full bg-white text-[13px] block h-[220px]`}>
             <div className="flex m-auto w-[1128px] h-[80px]">
-                {/* <div className="mt-4 flex flex-1 items-start">
-                    <div className="ant-dropdown-trigger flex cursor-pointer items-center">
-                        <img src="/images/icons/vietnam.svg" width="26" alt="language icon"/>
-                        <span className="mx-2 uppercase text-white">vi</span>
-                        <img src="/images/icons/icon_form_droplist.svg" alt="icon_form_droplist"/>
-                    </div>
-                    <div className="ml-4 border-l pl-4">
-                        <div className="ant-dropdown-trigger flex cursor-pointer items-center">
-                            <img src="/images/icons/download_app.svg" width="26" alt="download app icon"/>
-                            <span className="mx-2 text-white">Tải ứng dụng</span>
-                            <img src="/images/icons/icon_form_droplist.svg" alt="icon_form_droplist"/>
-                        </div>
-                    </div>
-                </div> */}
-
+                
                 <div className="mt-4 flex flex-1 items-start"></div>
 
                 <div className="logo-banner z-10 mx-20">
@@ -38,10 +28,17 @@ export default function Header() {
 
 
                 <div className="mt-4 flex flex-1 justify-end">
-                    <div className="flex items-start gap-4 text-center text-sm font-medium">
+                    <div className={`flex items-start gap-4 text-center text-sm font-medium ${Object.keys(inforAuth).length === 0?"block":"hidden"}`}>
                         <NavLink to="/login"  className="flex h-8 w-44 justify-center text-[12px] cursor-pointer items-center gap-2 rounded-2xl bg-white p-2 text-black">
                             <img src={person} style={{width: "20px", height: "20px"}} alt=""/>
-                            Đăng nhập/Đăng ký
+                            <span className={``}>Đăng nhập/Đăng ký</span>
+                        </NavLink>
+                    </div>
+
+                    <div className={`flex items-start gap-4 text-center text-sm font-medium ${Object.keys(inforAuth).length !== 0?"block":"hidden"}`}>
+                        <NavLink to="/edit"  className="flex h-8 w-44 justify-center text-[12px] cursor-pointer items-center gap-2 rounded-2xl bg-white p-2 text-black">
+                            <img src={person} style={{width: "20px", height: "20px"}} alt=""/>
+                            <span>{inforAuth.username}</span>
                         </NavLink>
                     </div>
                 </div>

@@ -13,6 +13,7 @@ export default function BookTicket() {
     let dispatch= useDispatch()
     const location = useLocation();
     let {chuyenXe, selectSeat}= useSelector(state=> state.HomeReducer)
+    let {inforAuth}= useSelector(state=> state.AuthReducer)
     const [notification, setNotification] = useState({ show: false, message: '', type: '' });
 
     const updateGheDangChon = () => {
@@ -84,7 +85,7 @@ export default function BookTicket() {
             ngayDat: today.toLocaleDateString("en-CA", options),
             trangThaiThanhToan: 0,
             listSeat: selectSeat,
-            idKhachHang: -1,
+            idKhachHang: Object.keys(inforAuth).length === 0?-1:inforAuth.data.customerId,
             idChuyenXe: id,
             idQuanLy: -1,
             name: inforCustomer.name,
