@@ -18,7 +18,7 @@ export const updateInforAPI = (infor) => {
 
 export const updatePasswordAPI = (password) => {
     let promise = Axios({
-        url: "http://localhost:8080/auth/customer",
+        url: "http://localhost:8080/auth/customer/password",
         method: "PUT",
         data: password,
     })
