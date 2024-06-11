@@ -33,6 +33,10 @@ export default function EditInfor() {
 
     const updateInforOnclick= ()=>{
         // updateInforAPI(inforUpdate)
+        if(inforUpdate.fullName === ''&& inforUpdate.phoneNumber === '' && inforUpdate.email === ''){
+            setNotification({ show: true, message: 'Vui lòng nhập thông tin', type: 'error' });
+            return
+        }
         let promise = Axios({
             url: "http://localhost:8080/auth/customer",
             method: "PUT",
@@ -59,6 +63,11 @@ export default function EditInfor() {
     }
 
     const updatePasswordOnclick= ()=>{
+        if(passwordUpdate.newPassword === ''&& passwordUpdate.comfirmPassword === '' && passwordUpdate.oldPassword === ''){
+            setNotification({ show: true, message: 'Vui lòng nhập thông tin mật khẩu cũ - mới - xác nhận', type: 'error' });
+            return
+        }
+
         if(passwordUpdate.newPassword !== passwordUpdate.comfirmPassword){
             setNotification({ show: true, message: 'Mật khẩu xác thực không khớp', type: 'error' });
             return
