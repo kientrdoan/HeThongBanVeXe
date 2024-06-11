@@ -7,3 +7,4 @@ npm i axios <br/>
 npm i tailwindcss <br/>
 npm i redux-saga
 npm i antd
+npm install jwt-decode

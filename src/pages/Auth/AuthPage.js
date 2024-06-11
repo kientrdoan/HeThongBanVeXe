@@ -5,6 +5,7 @@ import Axios from "axios";
 import { NavLink } from "react-router-dom";
 import { Button, notification, Space } from 'antd';
 import { useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 function AuthPage() {
 	const navigate = useNavigate();
@@ -37,16 +38,20 @@ function AuthPage() {
 		promise.then((result) => {
 			localStorage.setItem(username, result.data.data);
 			console.log(result.data);
-			if (result.data.status == 200) {
-				openNotificationWithIcon('success', 'Đăng nhập thành công')	
+			if (result.data.status === 200) {
+				openNotificationWithIcon('success', 'Đăng nhập thành công')
+				const token = result.data.data
+				const data = jwtDecode(token);
+				// {customerId: 3, iat: 1718101356, exp: 1718187756}
+				console.log(data)
 				navigate("/");			
 			}
 			// else e.preventDefault();
 
-			if (result.data.status == 404) {
+			if (result.data.status === 404) {
 				openNotificationWithIcon('error', 'Không tìm thấy tài khoản')
 			}
-			if (result.data.status == 401) {
+			if (result.data.status === 401) {
 				openNotificationWithIcon('error', 'Sai mật khẩu')
 			}
 
