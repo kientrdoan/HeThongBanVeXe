@@ -11,7 +11,7 @@ export default function PaymentDetail() {
         if (event.target.value === 'VNPAY') {
             try {
                 const params = new URLSearchParams();
-                params.append('amount', `${inforPayment.gia * inforPayment.selectSeat.length}`);
+                params.append('amount', `${inforPayment.gia * inforPayment.listSeat.length}`);
                 params.append('orderInfo', `${listIdVe.join(" ")}`);
 
                 const response = await axios.post('http://localhost:8080/thanhtoan/submitOrder', params);

@@ -13,7 +13,6 @@ import delete_filter from "../../asserts/delete.svg"
 import { getChuyenXeAPI } from '../../redux/actions/HomeAction'
 
 
-
 export default function Home() {
 
   var today = new Date();
@@ -502,7 +501,9 @@ export default function Home() {
                 <div id={`${styles["date-picker"]}`} className='mr-4 flex flex-1 flex-col'>
                   <label>Ngày đi</label>
 
-                  {rederDatePicker()}
+                  <div id="date-picker-custom">
+                    {rederDatePicker()}
+                  </div>
 
                 </div>
 
