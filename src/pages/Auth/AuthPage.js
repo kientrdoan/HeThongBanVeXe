@@ -38,7 +38,7 @@ function AuthPage() {
 			}
 		})
 		promise.then((result) => {
-			localStorage.setItem(username, result.data.data);
+			localStorage.setItem(username+ "token", result.data.data);
 			console.log("signin form", result.data);
 			if (result.data.status === 200) {
 				openNotificationWithIcon('success', 'Đăng nhập thành công')
@@ -46,6 +46,14 @@ function AuthPage() {
 				const data = jwtDecode(token);
 				// {customerId: 3, iat: 1718101356, exp: 1718187756}
 				console.log("Data", data)
+
+				const authInfor = {
+					username: username,
+					data: data
+				}
+				
+				localStorage.setItem("inforAuth", JSON.stringify(authInfor))
+
 				dispatch({
 					type: "INFOR_AUTH",
 					inforAuth: {
@@ -53,7 +61,8 @@ function AuthPage() {
 						data: data
 					}
 				})
-				navigate("/");			
+				navigate("/");		
+				// window.location.reload();	
 			}
 			// else e.preventDefault();
 
@@ -94,10 +103,10 @@ function AuthPage() {
 		promise.then((result) => {
 			// localStorage.setItem(username, result.data.data);
 			console.log(result.data.data);
-			if (result.data.status == 200) {
+			if (result.data.status === 200) {
 				openNotificationWithIcon('success', 'Đăng ký thành công')
 			}
-			if (result.data.status == 400) {
+			if (result.data.status === 400) {
 				openNotificationWithIcon('error', 'Đã tồn tại tài khoản')
 			}
 
@@ -151,18 +160,6 @@ function AuthPage() {
 					<form onSubmit={handleSignInForm}>
 						<h1>ĐĂNG NHẬP</h1>
 						<div className={styles["social-icons"]}>
-							{/* <a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-google-plus-g"></i>
-							</a>
-							<a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-facebook-f"></i>
-							</a>
-							<a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-github"></i>
-							</a>
-							<a href="#" className={styles["icon"]}>
-								<i className="fa-brands fa-linkedin-in"></i>
-							</a> */}
 						</div>
 						<input
 							name="username"

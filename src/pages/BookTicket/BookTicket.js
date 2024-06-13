@@ -11,9 +11,21 @@ export default function BookTicket() {
 
     const { id } = useParams();
     let dispatch= useDispatch()
+
     const location = useLocation();
+    let [authInfor, setAuthInfo] = useState(null)
+
     let {chuyenXe, selectSeat}= useSelector(state=> state.HomeReducer)
-    let {inforAuth}= useSelector(state=> state.AuthReducer)
+    // let {inforAuth}= useSelector(state=> state.AuthReducer)
+
+    useEffect(() => {
+        
+        const storedAuthInfor = localStorage.getItem("inforAuth");
+        if (storedAuthInfor) {
+            setAuthInfo(JSON.parse(storedAuthInfor));
+        }
+    }, [location]);
+
     const [notification, setNotification] = useState({ show: false, message: '', type: '' });
 
     const updateGheDangChon = () => {
@@ -85,7 +97,7 @@ export default function BookTicket() {
             ngayDat: today.toLocaleDateString("en-CA", options),
             trangThaiThanhToan: 0,
             listSeat: selectSeat,
-            idKhachHang: Object.keys(inforAuth).length === 0?-1:inforAuth.data.customerId,
+            idKhachHang: authInfor!== null?authInfor.data.customerId:-1,
             idChuyenXe: id,
             idQuanLy: -1,
             name: inforCustomer.name,
