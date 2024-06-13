@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import seat_active from "../../asserts/seat_active.svg";
 import seat_selecting from "../../asserts/seat_selecting.svg";
@@ -12,8 +13,8 @@ export default function SelectSeat() {
     const handleSelectSeat = (seat) => {
         // console.log(seat)
         let index = selectSeat.indexOf(seat)
-        let existInListVeXe= chuyenXe.listMaGhe.indexOf(seat)
-        if(existInListVeXe === -1){
+        let existInListVeXe = chuyenXe.listMaGhe.indexOf(seat)
+        if (existInListVeXe === -1) {
             if (index !== -1) {
                 let newData = [...selectSeat]
                 newData.splice(index, 1)
@@ -100,6 +101,60 @@ export default function SelectSeat() {
             </table>
         );
     }
+
+    // const render_seat = (label) => {
+    //     const totalSeats= 34/2;
+    //     const rows = [];
+    //     let numberSeat = 1;
+
+    //     // First row with 2 seats
+    //     const firstRowSeats = 2;
+    //     const row = (
+    //         <tr key={numberSeat} className="flex items-center gap-1 justify-between">
+    //             {Array.from({ length: firstRowSeats }, (_, seatIndex) => {
+    //                 const seatNumber = numberSeat + seatIndex;
+    //                 return (
+    //                     <td key={seatNumber} onClick={() => { handleSelectSeat(getSeatLabel(label, seatNumber)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, seatNumber)) || (selectSeat.includes(getSeatLabel(label, seatNumber)) === false && selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+    //                         <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, seatNumber)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, seatNumber)) ? seat_selecting : seat_active} alt="seat icon" />
+    //                         <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, seatNumber)}</span>
+    //                     </td>
+    //                 );
+    //             })}
+    //         </tr>
+    //     );
+    //     rows.push(row);
+    //     numberSeat += firstRowSeats;
+
+    //     // Remaining rows with 3 seats each
+    //     const seatsPerRow = 3;
+    //     while (numberSeat <= totalSeats) {
+    //         const row = (
+    //             <tr key={numberSeat} className="flex items-center gap-1 justify-between">
+    //                 {Array.from({ length: seatsPerRow }, (_, seatIndex) => {
+    //                     const seatNumber = numberSeat + seatIndex;
+    //                     if (seatNumber > totalSeats) return <td key={seatNumber} className="relative w-6" />; 
+
+    //                     return (
+    //                         <td key={seatNumber} onClick={() => { handleSelectSeat(getSeatLabel(label, seatNumber)) }} className={`relative mt-1 flex justify-center text-center ${chuyenXe.listMaGhe.includes(getSeatLabel(label, seatNumber)) || (selectSeat.includes(getSeatLabel(label, seatNumber)) === false && selectSeat.length >= 5) ? "cursor-not-allowed" : "cursor-pointer"}`}>
+    //                             <img width={45} src={chuyenXe.listMaGhe.includes(getSeatLabel(label, seatNumber)) ? seat_disabled : selectSeat.includes(getSeatLabel(label, seatNumber)) ? seat_selecting : seat_active} alt="seat icon" />
+    //                             <span className="absolute text-sm font-semibold text-[#A2ABB3] top-[0.55rem]">{getSeatLabel(label, seatNumber)}</span>
+    //                         </td>
+    //                     );
+    //                 })}
+    //             </tr>
+    //         );
+    //         rows.push(row);
+    //         numberSeat += seatsPerRow;
+    //     }
+
+    //     return (
+    //         <table>
+    //             <tbody>
+    //                 {rows}
+    //             </tbody>
+    //         </table>
+    //     );
+    // };
 
     return (
         <div className=''>
